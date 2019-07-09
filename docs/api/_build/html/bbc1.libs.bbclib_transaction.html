@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bbc1.libs.bbclib_transaction module &mdash; py-bbclib 1.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bbc1.libs.bbclib_utils module" href="bbc1.libs.bbclib_utils.html" />
+    <link rel="prev" title="bbc1.libs.bbclib_signature module" href="bbc1.libs.bbclib_signature.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> py-bbclib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="bbc1.html">bbc1 package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="bbc1.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bbc1.compat.html">bbc1.compat package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="bbc1.libs.html">bbc1.libs package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="bbc1.libs.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bbc1.libs.html#module-bbc1.libs">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bbc1.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bbc1.html#module-bbc1">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">py-bbclib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="bbc1.html">bbc1 package</a> &raquo;</li>
+        
+          <li><a href="bbc1.libs.html">bbc1.libs package</a> &raquo;</li>
+        
+      <li>bbc1.libs.bbclib_transaction module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/bbc1.libs.bbclib_transaction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-bbc1.libs.bbclib_transaction">
+<span id="bbc1-libs-bbclib-transaction-module"></span><h1>bbc1.libs.bbclib_transaction module<a class="headerlink" href="#module-bbc1.libs.bbclib_transaction" title="Permalink to this headline">¶</a></h1>
+<p>Copyright (c) 2017 beyond-blockchain.org.</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<blockquote>
+<div><p><a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+</div></blockquote>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+<dl class="class">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction">
+<em class="property">class </em><code class="sig-prename descclassname">bbc1.libs.bbclib_transaction.</code><code class="sig-name descname">BBcTransaction</code><span class="sig-paren">(</span><em class="sig-param">version=1</em>, <em class="sig-param">unpack=None</em>, <em class="sig-param">id_length=32</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Transaction object</p>
+<dl class="attribute">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.WITH_WIRE">
+<code class="sig-name descname">WITH_WIRE</code><em class="property"> = False</em><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.WITH_WIRE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">event=None</em>, <em class="sig-param">reference=None</em>, <em class="sig-param">relation=None</em>, <em class="sig-param">witness=None</em>, <em class="sig-param">cross_ref=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add parts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.add_signature">
+<code class="sig-name descname">add_signature</code><span class="sig-paren">(</span><em class="sig-param">user_id=None</em>, <em class="sig-param">signature=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.add_signature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.add_signature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add signature in the reserved space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<em>bytes</em>) – user_id of the signature owner</p></li>
+<li><p><strong>signature</strong> (<a class="reference internal" href="bbc1.compat.bbclib.html#bbc1.compat.bbclib.BBcSignature" title="bbc1.compat.bbclib.BBcSignature"><em>BBcSignature</em></a>) – signature</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if successful</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.digest">
+<code class="sig-name descname">digest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.digest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.digest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the digest</p>
+<p>The digest corresponds to the transaction_id of this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>transaction_id (or digest)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.get_sig_index">
+<code class="sig-name descname">get_sig_index</code><span class="sig-paren">(</span><em class="sig-param">user_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.get_sig_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.get_sig_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reserve a space for signature for the specified user_id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_id</strong> (<em>bytes</em>) – user_id whose signature will be added to the signature part</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>position (index) in the signature part</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.pack">
+<code class="sig-name descname">pack</code><span class="sig-paren">(</span><em class="sig-param">for_id=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.pack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pack the whole parts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.set_sig_index">
+<code class="sig-name descname">set_sig_index</code><span class="sig-paren">(</span><em class="sig-param">user_id</em>, <em class="sig-param">idx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.set_sig_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.set_sig_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a user_id with the index of signature list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<em>bytes</em>) – user_id whose signature will be added to the signature part</p></li>
+<li><p><strong>idx</strong> (<em>int</em>) – index number</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.sign">
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">key_type=2</em>, <em class="sig-param">private_key=None</em>, <em class="sig-param">public_key=None</em>, <em class="sig-param">keypair=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign the transaction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key_type</strong> (<em>int</em>) – Type of encryption key’s curve</p></li>
+<li><p><strong>private_key</strong> (<em>bytes</em>) – </p></li>
+<li><p><strong>public_key</strong> (<em>bytes</em>) – </p></li>
+<li><p><strong>keypair</strong> (<a class="reference internal" href="bbc1.compat.bbclib.html#bbc1.compat.bbclib.KeyPair" title="bbc1.compat.bbclib.KeyPair"><em>KeyPair</em></a>) – keypair or set of private_key and public_key needs to be given</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="bbc1.compat.bbclib.html#bbc1.compat.bbclib.BBcSignature" title="bbc1.compat.bbclib.BBcSignature">BBcSignature</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbc1.libs.bbclib_transaction.BBcTransaction.unpack">
+<code class="sig-name descname">unpack</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.unpack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.unpack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpack into this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>bytes</em>) – packed binary data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if successful</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bbc1.libs.bbclib_utils.html" class="btn btn-neutral float-right" title="bbc1.libs.bbclib_utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bbc1.libs.bbclib_signature.html" class="btn btn-neutral float-left" title="bbc1.libs.bbclib_signature module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, beyond-blockchain.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
