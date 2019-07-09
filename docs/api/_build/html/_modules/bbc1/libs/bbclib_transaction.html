@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bbc1.libs.bbclib_transaction &mdash; py-bbclib 1.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> py-bbclib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../bbc1.html">bbc1 package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">py-bbclib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>bbc1.libs.bbclib_transaction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for bbc1.libs.bbclib_transaction</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2017 beyond-blockchain.org.</span>
+
+<span class="sd">Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="sd">you may not use this file except in compliance with the License.</span>
+<span class="sd">You may obtain a copy of the License at</span>
+
+<span class="sd">    http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="sd">Unless required by applicable law or agreed to in writing, software</span>
+<span class="sd">distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="sd">WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="sd">See the License for the specific language governing permissions and</span>
+<span class="sd">limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">msgpack</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span>
+
+<span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;../..&quot;</span><span class="p">))</span>
+
+<span class="kn">from</span> <span class="nn">bbc1.libs</span> <span class="k">import</span> <span class="n">bbclib_utils</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs</span> <span class="k">import</span> <span class="n">bbclib_error</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_config</span> <span class="k">import</span> <span class="n">DEFAULT_ID_LEN</span><span class="p">,</span> <span class="n">DEFAULT_CURVETYPE</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_keypair</span> <span class="k">import</span> <span class="n">KeyPair</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_signature</span> <span class="k">import</span> <span class="n">BBcSignature</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_relation</span> <span class="k">import</span> <span class="n">BBcRelation</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_reference</span> <span class="k">import</span> <span class="n">BBcReference</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_event</span> <span class="k">import</span> <span class="n">BBcEvent</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_witness</span> <span class="k">import</span> <span class="n">BBcWitness</span>
+<span class="kn">from</span> <span class="nn">bbc1.libs.bbclib_crossref</span> <span class="k">import</span> <span class="n">BBcCrossRef</span>
+<span class="kn">from</span> <span class="nn">bbc1</span> <span class="k">import</span> <span class="n">bbclib</span>
+
+
+<div class="viewcode-block" id="BBcTransaction"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction">[docs]</a><span class="k">class</span> <span class="nc">BBcTransaction</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Transaction object&quot;&quot;&quot;</span>
+    <span class="n">WITH_WIRE</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># for backward compatibility</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_length</span><span class="o">=</span><span class="n">DEFAULT_ID_LEN</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_length</span> <span class="o">=</span> <span class="n">id_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># milliseconds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">references</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">witness</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signatures</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_base_digest</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_ids</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">unpack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">unpack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span>  <span class="s2">&quot;------- Dump of the transaction data ------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;* transaction_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;version: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;timestamp: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;id_length: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_length</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;Event[]: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">evt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot; [</span><span class="si">%d</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;Reference[]: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">refe</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot; [</span><span class="si">%d</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">refe</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;Relation[]: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rtn</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot; [</span><span class="si">%d</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rtn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">witness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;Witness: None</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">witness</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;Cross_Ref: None</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;Signature[]: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sig</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot; [</span><span class="si">%d</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+<div class="viewcode-block" id="BBcTransaction.add"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">witness</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cross_ref</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add parts&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reference</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">relation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">relation</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">relation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">witness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">witness</span><span class="o">.</span><span class="n">transaction</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">witness</span> <span class="o">=</span> <span class="n">witness</span>
+        <span class="k">if</span> <span class="n">cross_ref</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span> <span class="o">=</span> <span class="n">cross_ref</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.get_sig_index"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.get_sig_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_sig_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reserve a space for signature for the specified user_id</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (bytes): user_id whose signature will be added to the signature part</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: position (index) in the signature part</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BBcSignature</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.set_sig_index"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.set_sig_index">[docs]</a>    <span class="k">def</span> <span class="nf">set_sig_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Map a user_id with the index of signature list</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (bytes): user_id whose signature will be added to the signature part</span>
+<span class="sd">            idx (int): index number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.add_signature"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.add_signature">[docs]</a>    <span class="k">def</span> <span class="nf">add_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add signature in the reserved space</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (bytes): user_id of the signature owner</span>
+<span class="sd">            signature (BBcSignature): signature</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if successful</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">userid_sigidx_mapping</span><span class="p">[</span><span class="n">user_id</span><span class="p">]</span>
+        <span class="n">signature</span><span class="o">.</span><span class="n">not_initialized</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.digest"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.digest">[docs]</a>    <span class="k">def</span> <span class="nf">digest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the digest</span>
+
+<span class="sd">        The digest corresponds to the transaction_id of this object</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bytes: transaction_id (or digest)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">for_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.pack"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.pack">[docs]</a>    <span class="k">def</span> <span class="nf">pack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_id</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pack the whole parts&quot;&quot;&quot;</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_8byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">)):</span>
+            <span class="n">evt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">evt</span><span class="p">)))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">)):</span>
+            <span class="n">refe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">refe</span><span class="p">)))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">refe</span><span class="p">)</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">)):</span>
+            <span class="n">rtn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rtn</span><span class="p">)))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">rtn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">witness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">witness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">witness</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">witness</span><span class="p">)))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">witness</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_base_digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+
+        <span class="n">dat_cross</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cross</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+            <span class="n">dat_cross</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">dat_cross</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cross</span><span class="p">)))</span>
+            <span class="n">dat_cross</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">cross</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dat_cross</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">for_id</span><span class="p">:</span>
+            <span class="n">dat_for_id</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_base_digest</span><span class="p">)</span>
+            <span class="n">dat_for_id</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dat_cross</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">dat_for_id</span><span class="p">)</span>
+
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dat_cross</span><span class="p">)</span>
+
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">signature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="p">:</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">signature</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">)))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction_data</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.unpack"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.unpack">[docs]</a>    <span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Unpack into this object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (bytes): packed binary data</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if successful</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:]</span>
+        <span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">data_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_length</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">evt_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">evt_num</span><span class="p">):</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">evtdata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">evt</span> <span class="o">=</span> <span class="n">BBcEvent</span><span class="p">(</span><span class="n">id_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">evt</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">evtdata</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">data_size</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_ids</span><span class="p">[</span><span class="n">evt</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">asset_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">evt</span><span class="o">.</span><span class="n">asset_group_id</span>
+
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">ref_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">references</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ref_num</span><span class="p">):</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">refdata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">refe</span> <span class="o">=</span> <span class="n">BBcReference</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">id_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">refe</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">refdata</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">refe</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">data_size</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">rtn_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">relations</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rtn_num</span><span class="p">):</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">rtndata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">rtn</span> <span class="o">=</span> <span class="n">BBcRelation</span><span class="p">(</span><span class="n">id_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">rtn</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">rtndata</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtn</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">data_size</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_ids</span><span class="p">[</span><span class="n">rtn</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">asset_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">rtn</span><span class="o">.</span><span class="n">asset_group_id</span>
+
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">witness_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">witness_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">witness</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">witnessdata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">witness</span> <span class="o">=</span> <span class="n">BBcWitness</span><span class="p">(</span><span class="n">id_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">witness</span><span class="o">.</span><span class="n">transaction</span> <span class="o">=</span> <span class="bp">self</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">witness</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">witnessdata</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">cross_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cross_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">crossdata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span> <span class="o">=</span> <span class="n">BBcCrossRef</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_ref</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">crossdata</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">sig_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signatures</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sig_num</span><span class="p">):</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">sig</span> <span class="o">=</span> <span class="n">BBcSignature</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="n">ptr</span><span class="p">,</span> <span class="n">sigdata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">sig</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">sigdata</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">signatures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;</span> <span class="n">data_size</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transaction data unpack: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BBcTransaction.sign"><a class="viewcode-back" href="../../../bbc1.libs.bbclib_transaction.html#bbc1.libs.bbclib_transaction.BBcTransaction.sign">[docs]</a>    <span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="n">DEFAULT_CURVETYPE</span><span class="p">,</span> <span class="n">private_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">public_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keypair</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sign the transaction</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key_type (int): Type of encryption key&#39;s curve</span>
+<span class="sd">            private_key (bytes):</span>
+<span class="sd">            public_key (bytes):</span>
+<span class="sd">            keypair (KeyPair): keypair or set of private_key and public_key needs to be given</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcSignature:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bbclib</span><span class="o">.</span><span class="n">_reset_error</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">keypair</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">32</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">32</span><span class="p">:</span>
+                <span class="n">bbclib</span><span class="o">.</span><span class="n">_set_error</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">bbclib_error</span><span class="o">.</span><span class="n">EBADKEYPAIR</span><span class="p">,</span> <span class="n">txt</span><span class="o">=</span><span class="s2">&quot;Bad private_key/public_key (must be in bytes format)&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">keypair</span> <span class="o">=</span> <span class="n">KeyPair</span><span class="p">(</span><span class="n">curvetype</span><span class="o">=</span><span class="n">key_type</span><span class="p">,</span> <span class="n">privkey</span><span class="o">=</span><span class="n">private_key</span><span class="p">,</span> <span class="n">pubkey</span><span class="o">=</span><span class="n">public_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">keypair</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">bbclib</span><span class="o">.</span><span class="n">_set_error</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">bbclib_error</span><span class="o">.</span><span class="n">EBADKEYPAIR</span><span class="p">,</span> <span class="n">txt</span><span class="o">=</span><span class="s2">&quot;Bad private_key/public_key&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">BBcSignature</span><span class="p">(</span><span class="n">key_type</span><span class="o">=</span><span class="n">keypair</span><span class="o">.</span><span class="n">curvetype</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">keypair</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bbclib</span><span class="o">.</span><span class="n">_set_error</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">bbclib_error</span><span class="o">.</span><span class="n">EOTHER</span><span class="p">,</span> <span class="n">txt</span><span class="o">=</span><span class="s2">&quot;sig_type </span><span class="si">%d</span><span class="s2"> is not supported&quot;</span> <span class="o">%</span> <span class="n">keypair</span><span class="o">.</span><span class="n">curvetype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">sig</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">signature</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">pubkey</span><span class="o">=</span><span class="n">keypair</span><span class="o">.</span><span class="n">public_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sig</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, beyond-blockchain.org
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
