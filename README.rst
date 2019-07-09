@@ -26,11 +26,13 @@ API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/master
 
 * tools for macOS by Homebrew
     ```
-    brew install libtool automake python3 python3-virtualenv
+    brew install libtool automake python3
+    pip3 install virtualenv
     ```
 
 * tools for Linux (Ubuntu 16.04 LTS)
     ```
+    sudo apt-get update
     sudo apt-get install -y git tzdata openssh-server python3 python3-dev python3-pip python3-venv libffi-dev net-tools autoconf automake libtool libssl-dev make
     ```
 
