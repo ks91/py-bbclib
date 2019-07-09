@@ -39,19 +39,18 @@ API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/master
 # Install
 
 ### install module using pip
-    ```
+
     python -mvenv venv
     source venv/bin/activate
     pip install -r py-bbclib
-    ```
+
 
 ### build from github repository (this repository)
 This project needs an external library, [libbbcsig](https://github.com/beyond-blockchain/libbbcsig), for sign/verify of transaction data. This repository includes setup script to build the external library.
-    ```
+
     git clone https://github.com/beyond-blockchain/py-bbclib
     cd py-bbclib
     bash prepare.sh
-    ```
 
 You fill find a dynamic link library (libbbcsig.so or libbbcsig.dylib) in bbc1/libs/ directory.
 
