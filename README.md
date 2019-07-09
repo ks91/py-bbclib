@@ -14,7 +14,7 @@ Although there are many TODOs in BBc-1, this reference implementation includes m
 
 For the details, please read documents in docs/ directory in [the bbc1 repository](https://github.com/beyond-blockchain/bbc1). Not only documents but slide decks (PDF) explain the design of the BBc-1 and its implementation.
 
-API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/master/).
+API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest/index.html).
 
 
 # Environment
