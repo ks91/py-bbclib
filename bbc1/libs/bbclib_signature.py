@@ -55,7 +55,10 @@ class BBcSignature:
             return "  Not initialized\n"
         ret =  "  key_type: %d\n" % self.key_type
         ret += "  signature: %s\n" % binascii.b2a_hex(self.signature)
-        ret += "  pubkey: %s\n" % binascii.b2a_hex(self.pubkey)
+        if self.pubkey is not None:
+            ret += "  pubkey: %s\n" % binascii.b2a_hex(self.pubkey)
+        else:
+            ret += "  pubkey: None\n"
         return ret
 
     def pack(self):
@@ -64,9 +67,12 @@ class BBcSignature:
             dat = bytearray(bbclib_utils.to_4byte(KeyType.NOT_INITIALIZED))
             return bytes(dat)
         dat = bytearray(bbclib_utils.to_4byte(self.key_type))
-        pubkey_len_bit = len(self.pubkey) * 8
-        dat.extend(bbclib_utils.to_4byte(pubkey_len_bit))
-        dat.extend(self.pubkey)
+        if self.pubkey is None:
+            dat.extend(bbclib_utils.to_4byte(0))
+        else:
+            pubkey_len_bit = len(self.pubkey) * 8
+            dat.extend(bbclib_utils.to_4byte(pubkey_len_bit))
+            dat.extend(self.pubkey)
         sig_len_bit = len(self.signature) * 8
         dat.extend(bbclib_utils.to_4byte(sig_len_bit))
         dat.extend(self.signature)
@@ -86,8 +92,11 @@ class BBcSignature:
             if self.key_type == KeyType.NOT_INITIALIZED:
                 return True
             ptr, pubkey_len_bit = bbclib_utils.get_n_byte_int(ptr, 4, data)
-            pubkey_len = int(pubkey_len_bit/8)
-            ptr, pubkey = bbclib_utils.get_n_bytes(ptr, pubkey_len, data)
+            if pubkey_len_bit > 0:
+                pubkey_len = int(pubkey_len_bit/8)
+                ptr, pubkey = bbclib_utils.get_n_bytes(ptr, pubkey_len, data)
+            else:
+                pubkey = None
             ptr, sig_len_bit = bbclib_utils.get_n_byte_int(ptr, 4, data)
             sig_len = int(sig_len_bit/8)
             ptr, signature = bbclib_utils.get_n_bytes(ptr, sig_len, data)
@@ -96,20 +105,25 @@ class BBcSignature:
             return False
         return True
 
-    def verify(self, digest):
+    def verify(self, digest, pubkey=None):
         """Verify digest using pubkey in signature
 
         Args:
             digest (bytes): digest to verify
+            pubkey (bytes): external public key for verification
         Returns:
             int: 0:invalid, 1:valid
         """
         bbclib._reset_error()
-        if self.keypair is None:
+        if self.keypair is None and pubkey is None:
             bbclib._set_error(code=bbclib_error.EBADKEYPAIR, txt="Bad private_key/public_key")
             return False
         try:
-            flag = self.keypair.verify(digest, self.signature)
+            if self.keypair is not None:
+                flag = self.keypair.verify(digest, self.signature)
+            else:
+                keypair = KeyPair(curvetype=self.key_type, pubkey=pubkey)
+                flag = keypair.verify(digest, self.signature)
         except:
             traceback.print_exc()
             return False

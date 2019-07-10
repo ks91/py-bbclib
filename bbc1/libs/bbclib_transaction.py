@@ -324,7 +324,7 @@ class BBcTransaction:
             return False
         return True
 
-    def sign(self, key_type=DEFAULT_CURVETYPE, private_key=None, public_key=None, keypair=None):
+    def sign(self, key_type=DEFAULT_CURVETYPE, private_key=None, public_key=None, keypair=None, no_pubkey=False):
         """Sign the transaction
 
         Args:
@@ -332,6 +332,7 @@ class BBcTransaction:
             private_key (bytes):
             public_key (bytes):
             keypair (KeyPair): keypair or set of private_key and public_key needs to be given
+            no_pubkey (bool): If True, public key is not contained in the BBcSignature object (needs to be given externally when verification)
         Returns:
             BBcSignature:
         """
@@ -350,5 +351,8 @@ class BBcTransaction:
         if s is None:
             bbclib._set_error(code=bbclib_error.EOTHER, txt="sig_type %d is not supported" % keypair.curvetype)
             return None
-        sig.add(signature=s, pubkey=keypair.public_key)
+        if no_pubkey:
+            sig.add(signature=s)
+        else:
+            sig.add(signature=s, pubkey=keypair.public_key)
         return sig
