@@ -30,7 +30,7 @@ sys.path.append(os.path.join(current_dir, "../.."))
 
 from bbc1.libs import bbclib_utils
 from bbc1.libs import bbclib_error
-from bbc1.libs.bbclib_config import DEFAULT_ID_LEN, DEFAULT_CURVETYPE
+from bbc1.libs.bbclib_config import DEFAULT_CURVETYPE
 from bbc1.libs.bbclib_keypair import KeyPair
 from bbc1.libs.bbclib_signature import BBcSignature
 from bbc1.libs.bbclib_relation import BBcRelation
@@ -39,14 +39,16 @@ from bbc1.libs.bbclib_event import BBcEvent
 from bbc1.libs.bbclib_witness import BBcWitness
 from bbc1.libs.bbclib_crossref import BBcCrossRef
 from bbc1 import bbclib
+from bbc1.bbclib import id_length_conf
 
 
 class BBcTransaction:
     """Transaction object"""
     WITH_WIRE = False  # for backward compatibility
 
-    def __init__(self, version=1, unpack=None, id_length=DEFAULT_ID_LEN):
-        self.id_length = id_length
+    def __init__(self, version=1, unpack=None, id_length=None):
+        if id_length is not None:
+            bbclib.configure_id_length_all(id_length)
         self.version = version
         self.timestamp = int(time.time() * 1000)  # milliseconds
         self.events = []
@@ -69,7 +71,7 @@ class BBcTransaction:
         ret += "version: %d\n" % self.version
         ret += "timestamp: %d\n" % self.timestamp
         if self.version != 0:
-            ret += "id_length: %d\n" % self.id_length
+            ret += "id_length of transaction_id: %d\n" % id_length_conf["transaction_id"]
         ret += "Event[]: %d\n" % len(self.events)
         for i, evt in enumerate(self.events):
             ret += " [%d]\n" % i
@@ -170,7 +172,7 @@ class BBcTransaction:
         """
         target = self.pack(for_id=True)
         d = hashlib.sha256(target).digest()
-        self.transaction_id = d[:self.id_length]
+        self.transaction_id = d[:id_length_conf["transaction_id"]]
         return d
 
     def pack(self, for_id=False):
@@ -178,7 +180,7 @@ class BBcTransaction:
         dat = bytearray(bbclib_utils.to_4byte(self.version))
         dat.extend(bbclib_utils.to_8byte(self.timestamp))
         if self.version != 0:
-            dat.extend(bbclib_utils.to_2byte(self.id_length))
+            dat.extend(bbclib_utils.to_2byte(id_length_conf["transaction_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.events)))
         for i in range(len(self.events)):
             evt = self.events[i].pack()
@@ -242,13 +244,14 @@ class BBcTransaction:
             ptr, self.version = bbclib_utils.get_n_byte_int(ptr, 4, data)
             ptr, self.timestamp = bbclib_utils.get_n_byte_int(ptr, 8, data)
             if self.version != 0:
-                ptr, self.id_length = bbclib_utils.get_n_byte_int(ptr, 2, data)
+                ptr, id_length = bbclib_utils.get_n_byte_int(ptr, 2, data)
+                id_length_conf["transaction_id"] = id_length
             ptr, evt_num = bbclib_utils.get_n_byte_int(ptr, 2, data)
             self.events = []
             for i in range(evt_num):
                 ptr, size = bbclib_utils.get_n_byte_int(ptr, 4, data)
                 ptr, evtdata = bbclib_utils.get_n_bytes(ptr, size, data)
-                evt = BBcEvent(id_length=self.id_length)
+                evt = BBcEvent()
                 if not evt.unpack(evtdata):
                     return False
                 self.events.append(evt)
@@ -261,7 +264,7 @@ class BBcTransaction:
             for i in range(ref_num):
                 ptr, size = bbclib_utils.get_n_byte_int(ptr, 4, data)
                 ptr, refdata = bbclib_utils.get_n_bytes(ptr, size, data)
-                refe = BBcReference(None, self, id_length=self.id_length)
+                refe = BBcReference(None, self)
                 if not refe.unpack(refdata):
                     return False
                 self.references.append(refe)
@@ -273,7 +276,7 @@ class BBcTransaction:
             for i in range(rtn_num):
                 ptr, size = bbclib_utils.get_n_byte_int(ptr, 4, data)
                 ptr, rtndata = bbclib_utils.get_n_bytes(ptr, size, data)
-                rtn = BBcRelation(id_length=self.id_length)
+                rtn = BBcRelation()
                 if not rtn.unpack(rtndata):
                     return False
                 self.relations.append(rtn)
@@ -287,7 +290,7 @@ class BBcTransaction:
             else:
                 ptr, size = bbclib_utils.get_n_byte_int(ptr, 4, data)
                 ptr, witnessdata = bbclib_utils.get_n_bytes(ptr, size, data)
-                self.witness = BBcWitness(id_length=self.id_length)
+                self.witness = BBcWitness()
                 self.witness.transaction = self
                 if not self.witness.unpack(witnessdata):
                     return False

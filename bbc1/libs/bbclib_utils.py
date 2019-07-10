@@ -124,34 +124,34 @@ def make_transaction(event_num=0, relation_num=0, witness=False, id_length=DEFAU
         event_num (int): the number of BBcEvent object to include in the transaction
         relation_num (int): the number of BBcRelation object to include in the transaction
         witness (bool): If true, BBcWitness object is included in the transaction
-        id_length (int): If <32, IDs will be truncated
+        id_length (int): If <32, IDs will be truncated (this params is for the backward compatibility)
     Returns:
         BBcTransaction:
     """
-    transaction = BBcTransaction(id_length=id_length)
+    transaction = BBcTransaction()
     if event_num > 0:
         for i in range(event_num):
-            evt = BBcEvent(id_length=id_length)
-            ast = BBcAsset(id_length=id_length)
+            evt = BBcEvent()
+            ast = BBcAsset()
             evt.add(asset=ast)
             transaction.add(event=evt)
     if relation_num > 0:
         for i in range(relation_num):
-            transaction.add(relation=BBcRelation(id_length=id_length))
+            transaction.add(relation=BBcRelation())
     if witness:
-        transaction.add(witness=BBcWitness(id_length=id_length))
+        transaction.add(witness=BBcWitness())
     return transaction
 
 
 def add_relation_asset(transaction, relation_idx, asset_group_id, user_id, asset_body=None, asset_file=None):
     """Utility to add BBcRelation object with BBcAsset in the transaction"""
-    ast = BBcAsset(user_id=user_id, asset_file=asset_file, asset_body=asset_body, id_length=transaction.id_length)
+    ast = BBcAsset(user_id=user_id, asset_file=asset_file, asset_body=asset_body)
     transaction.relations[relation_idx].add(asset_group_id=asset_group_id, asset=ast)
 
 
 def add_relation_pointer(transaction, relation_idx, ref_transaction_id=None, ref_asset_id=None):
     """Utility to add BBcRelation object with BBcPointer in the transaction"""
-    pointer = BBcPointer(transaction_id=ref_transaction_id, asset_id=ref_asset_id, id_length=transaction.id_length)
+    pointer = BBcPointer(transaction_id=ref_transaction_id, asset_id=ref_asset_id)
     transaction.relations[relation_idx].add(pointer=pointer)
 
 
@@ -162,7 +162,7 @@ def add_reference_to_transaction(transaction, asset_group_id, ref_transaction_ob
         BBcReference:
     """
     ref = BBcReference(asset_group_id=asset_group_id, transaction=transaction,
-                       ref_transaction=ref_transaction_obj, event_index_in_ref=event_index_in_ref, id_length=transaction.id_length)
+                       ref_transaction=ref_transaction_obj, event_index_in_ref=event_index_in_ref)
     if ref.transaction_id is None:
         return None
     transaction.add(reference=ref)
@@ -171,21 +171,21 @@ def add_reference_to_transaction(transaction, asset_group_id, ref_transaction_ob
 
 def add_event_asset(transaction, event_idx, asset_group_id, user_id, asset_body=None, asset_file=None):
     """Utility to add BBcEvent object with BBcAsset in the transaction"""
-    ast = BBcAsset(user_id=user_id, asset_file=asset_file, asset_body=asset_body, id_length=transaction.id_length)
+    ast = BBcAsset(user_id=user_id, asset_file=asset_file, asset_body=asset_body)
     transaction.events[event_idx].add(asset_group_id=asset_group_id, asset=ast)
 
 
-def make_relation_with_asset(asset_group_id, user_id, asset_body=None, asset_file=None, id_length=DEFAULT_ID_LEN):
+def make_relation_with_asset(asset_group_id, user_id, asset_body=None, asset_file=None):
     """Utility to make BBcRelation object"""
-    relation = BBcRelation(id_length=id_length)
-    ast = BBcAsset(user_id=user_id, asset_file=asset_file, asset_body=asset_body, id_length=id_length)
+    relation = BBcRelation()
+    ast = BBcAsset(user_id=user_id, asset_file=asset_file, asset_body=asset_body)
     relation.add(asset_group_id=asset_group_id, asset=ast)
     return relation
 
 
 def add_pointer_in_relation(relation, ref_transaction_id=None, ref_asset_id=None):
     """Utility to add BBcRelation object with BBcPointer in the BBcRelation object"""
-    pointer = BBcPointer(transaction_id=ref_transaction_id, asset_id=ref_asset_id, id_length=relation.id_length)
+    pointer = BBcPointer(transaction_id=ref_transaction_id, asset_id=ref_asset_id)
     relation.add(pointer=pointer)
 
 

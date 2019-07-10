@@ -20,14 +20,18 @@ import sys
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 
-from bbc1.libs.bbclib_config import DEFAULT_ID_LEN
+from bbc1 import bbclib
+from bbc1.bbclib import id_length_conf
 from bbc1.libs import bbclib_utils
+
+print("*****************", id_length_conf)
 
 
 class BBcWitness:
     """Witness part in a transaction"""
-    def __init__(self, id_length=DEFAULT_ID_LEN):
-        self.id_length = id_length
+    def __init__(self, id_length=None):
+        if id_length is not None:
+            bbclib.configure_id_length_all(id_length)
         self.transaction = None
         self.user_ids = list()
         self.sig_indices = list()
@@ -46,8 +50,8 @@ class BBcWitness:
     def add_witness(self, user_id):
         """Register user_id in the list"""
         if user_id not in self.user_ids:
-            self.user_ids.append(user_id[:self.id_length])
-            self.sig_indices.append(self.transaction.get_sig_index(user_id[:self.id_length]))
+            self.user_ids.append(user_id[:id_length_conf["user_id"]])
+            self.sig_indices.append(self.transaction.get_sig_index(user_id[:id_length_conf["user_id"]]))
 
     def add_signature(self, user_id=None, signature=None):
         """Add signature in the reserved space for the user_id that was registered before
@@ -56,7 +60,7 @@ class BBcWitness:
             user_id (bytes): user_id of the signature owner
             signature (BBcSignature): signature
         """
-        self.transaction.add_signature(user_id=user_id[:self.id_length], signature=signature)
+        self.transaction.add_signature(user_id=user_id[:id_length_conf["user_id"]], signature=signature)
 
     def pack(self):
         """Pack this object
@@ -66,7 +70,7 @@ class BBcWitness:
         """
         dat = bytearray(bbclib_utils.to_2byte(len(self.sig_indices)))
         for i in range(len(self.sig_indices)):
-            dat.extend(bbclib_utils.to_bigint(self.user_ids[i], size=self.id_length))
+            dat.extend(bbclib_utils.to_bigint(self.user_ids[i], size=id_length_conf["user_id"]))
             dat.extend(bbclib_utils.to_2byte(self.sig_indices[i]))
         return bytes(dat)
 
@@ -86,12 +90,13 @@ class BBcWitness:
             self.sig_indices = list()
             for i in range(signum):
                 ptr, uid = bbclib_utils.get_bigint(ptr, data)
+                id_length_conf["user_id"] = len(uid)
                 self.user_ids.append(uid)
                 ptr, idx = bbclib_utils.get_n_byte_int(ptr, 2, data)
                 self.sig_indices.append(idx)
                 if ptr > data_size:
                     return False
-                self.transaction.set_sig_index(uid[:self.id_length], idx)
+                self.transaction.set_sig_index(uid[:id_length_conf["transaction_id"]], idx)
         except:
             return False
         return True

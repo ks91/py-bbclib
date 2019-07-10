@@ -52,6 +52,6 @@ This project needs an external library, [libbbcsig](https://github.com/beyond-bl
     cd py-bbclib
     bash prepare.sh
 
-You fill find a dynamic link library (libbbcsig.so or libbbcsig.dylib) in bbc1/libs/ directory.
+You will find a dynamic link library (libbbcsig.so or libbbcsig.dylib) in bbc1/libs/ directory.
 
  

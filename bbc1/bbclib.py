@@ -23,6 +23,13 @@ sys.path.append(os.path.join(current_dir, "../"))
 from bbc1.libs import bbclib_error
 
 domain_global_0 = binascii.a2b_hex("0000000000000000000000000000000000000000000000000000000000000000")
+id_length_conf = {
+    "transaction_id": 32,
+    "user_id": 32,
+    "asset_group_id": 32,
+    "asset_id": 32,
+    "nonce": 32
+}
 
 error_code = -1
 error_text = ""
@@ -91,6 +98,19 @@ def serialize(txobj, format_type=bbclib_wire.BBcFormat.FORMAT_PLAIN):
     except:
         # -- for backward compatibility
         return txobj.transaction_data
+
+
+def configure_id_length(conf):
+    global id_length_conf
+    for kind in ["transaction_id", "user_id", "asset_group_id", "asset_id", "nonce"]:
+        if kind in conf:
+            id_length_conf[kind] = conf[kind]
+
+
+def configure_id_length_all(value):
+    global id_length_conf
+    for kind in ["transaction_id", "user_id", "asset_group_id", "asset_id", "nonce"]:
+        id_length_conf[kind] = value
 
 
 # ----

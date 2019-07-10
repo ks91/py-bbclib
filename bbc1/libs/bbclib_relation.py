@@ -20,21 +20,22 @@ import traceback
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
-from bbc1.libs.bbclib_config import DEFAULT_ID_LEN
 from bbc1.libs import bbclib_utils
 from bbc1.libs.bbclib_pointer import BBcPointer
 from bbc1.libs.bbclib_asset import BBcAsset
-
+from bbc1 import bbclib
+from bbc1.bbclib import id_length_conf
 
 
 class BBcRelation:
     """Relation part in a transaction"""
-    def __init__(self, asset_group_id=None, id_length=DEFAULT_ID_LEN):
-        self.id_length = id_length
-        if asset_group_id is not None and id_length < 32:
-            self.asset_group_id = asset_group_id[:id_length]
+    def __init__(self, asset_group_id=None, id_length=None):
+        if id_length is not None:
+            bbclib.configure_id_length_all(id_length)
+        if asset_group_id is not None:
+            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
         else:
-            self.asset_group_id = asset_group_id
+            self.asset_group_id = None
         self.pointers = list()
         self.asset = None
 
@@ -51,7 +52,7 @@ class BBcRelation:
     def add(self, asset_group_id=None, asset=None, pointer=None):
         """Add parts"""
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:self.id_length]
+            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
         if pointer is not None:
             if isinstance(pointer, list):
                 self.pointers.extend(pointer)
@@ -67,7 +68,7 @@ class BBcRelation:
         Returns:
             bytes: packed binary data
         """
-        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=self.id_length))
+        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=id_length_conf["asset_group_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.pointers)))
         for i in range(len(self.pointers)):
             pt = self.pointers[i].pack()
@@ -93,6 +94,7 @@ class BBcRelation:
         data_size = len(data)
         try:
             ptr, self.asset_group_id = bbclib_utils.get_bigint(ptr, data)
+            id_length_conf["asset_group_id"]= len(self.asset_group_id)
             ptr, pt_num = bbclib_utils.get_n_byte_int(ptr, 2, data)
             self.pointers = list()
             for i in range(pt_num):
@@ -107,7 +109,7 @@ class BBcRelation:
             self.asset = None
             ptr, astsize = bbclib_utils.get_n_byte_int(ptr, 4, data)
             if astsize > 0:
-                self.asset = BBcAsset(id_length=self.id_length)
+                self.asset = BBcAsset()
                 ptr, astdata = bbclib_utils.get_n_bytes(ptr, astsize, data)
                 if not self.asset.unpack(astdata):
                     return False
