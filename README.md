@@ -42,7 +42,7 @@ API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest
 
     python -mvenv venv
     source venv/bin/activate
-    pip install -r py-bbclib
+    pip install py-bbclib
 
 
 ### build from github repository (this repository)
