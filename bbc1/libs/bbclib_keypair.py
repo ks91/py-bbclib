@@ -126,6 +126,12 @@ class KeyPair:
         der_len = libbbcsig.output_der(self.curvetype, self.private_key_len, self.private_key, byref(der_data))
         return bytes(bytearray(der_data)[:der_len])
 
+    def get_public_key_in_der(self):
+        """Return private key in DER format"""
+        der_data = (c_byte * 512)()     # 256 -> 512
+        der_len = libbbcsig.output_public_key_der(self.curvetype, self.public_key_len, self.public_key, byref(der_data))
+        return bytes(bytearray(der_data)[:der_len])
+
     def get_private_key_in_pem(self):
         """Return private key in PEM format"""
         pem_data = (c_char * 512)()     # 256 -> 512
