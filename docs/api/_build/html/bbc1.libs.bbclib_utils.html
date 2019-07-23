@@ -300,7 +300,7 @@ limitations under the License.</p>
 
 <dl class="function">
 <dt id="bbc1.libs.bbclib_utils.make_relation_with_asset">
-<code class="sig-prename descclassname">bbc1.libs.bbclib_utils.</code><code class="sig-name descname">make_relation_with_asset</code><span class="sig-paren">(</span><em class="sig-param">asset_group_id</em>, <em class="sig-param">user_id</em>, <em class="sig-param">asset_body=None</em>, <em class="sig-param">asset_file=None</em>, <em class="sig-param">id_length=32</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_utils.html#make_relation_with_asset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_utils.make_relation_with_asset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">bbc1.libs.bbclib_utils.</code><code class="sig-name descname">make_relation_with_asset</code><span class="sig-paren">(</span><em class="sig-param">asset_group_id</em>, <em class="sig-param">user_id</em>, <em class="sig-param">asset_body=None</em>, <em class="sig-param">asset_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_utils.html#make_relation_with_asset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_utils.make_relation_with_asset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility to make BBcRelation object</p>
 </dd></dl>
 
@@ -314,7 +314,7 @@ limitations under the License.</p>
 <li><p><strong>event_num</strong> (<em>int</em>) – the number of BBcEvent object to include in the transaction</p></li>
 <li><p><strong>relation_num</strong> (<em>int</em>) – the number of BBcRelation object to include in the transaction</p></li>
 <li><p><strong>witness</strong> (<em>bool</em>) – If true, BBcWitness object is included in the transaction</p></li>
-<li><p><strong>id_length</strong> (<em>int</em>) – If &lt;32, IDs will be truncated</p></li>
+<li><p><strong>id_length</strong> (<em>int</em>) – If &lt;32, IDs will be truncated (this params is for the backward compatibility)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

@@ -173,6 +173,13 @@
 <span class="kn">from</span> <span class="nn">bbc1.libs</span> <span class="k">import</span> <span class="n">bbclib_error</span>
 
 <span class="n">domain_global_0</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">a2b_hex</span><span class="p">(</span><span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">)</span>
+<span class="n">id_length_conf</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;transaction_id&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s2">&quot;asset_group_id&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s2">&quot;asset_id&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="mi">32</span>
+<span class="p">}</span>
 
 <span class="n">error_code</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <span class="n">error_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -241,6 +248,19 @@
     <span class="k">except</span><span class="p">:</span>
         <span class="c1"># -- for backward compatibility</span>
         <span class="k">return</span> <span class="n">txobj</span><span class="o">.</span><span class="n">transaction_data</span></div>
+
+
+<div class="viewcode-block" id="configure_id_length"><a class="viewcode-back" href="../../bbc1.bbclib.html#bbc1.bbclib.configure_id_length">[docs]</a><span class="k">def</span> <span class="nf">configure_id_length</span><span class="p">(</span><span class="n">conf</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">id_length_conf</span>
+    <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;transaction_id&quot;</span><span class="p">,</span> <span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;asset_group_id&quot;</span><span class="p">,</span> <span class="s2">&quot;asset_id&quot;</span><span class="p">,</span> <span class="s2">&quot;nonce&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">:</span>
+            <span class="n">id_length_conf</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="configure_id_length_all"><a class="viewcode-back" href="../../bbc1.bbclib.html#bbc1.bbclib.configure_id_length_all">[docs]</a><span class="k">def</span> <span class="nf">configure_id_length_all</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">id_length_conf</span>
+    <span class="k">for</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;transaction_id&quot;</span><span class="p">,</span> <span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;asset_group_id&quot;</span><span class="p">,</span> <span class="s2">&quot;asset_id&quot;</span><span class="p">,</span> <span class="s2">&quot;nonce&quot;</span><span class="p">]:</span>
+        <span class="n">id_length_conf</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
 <span class="c1"># ----</span>
