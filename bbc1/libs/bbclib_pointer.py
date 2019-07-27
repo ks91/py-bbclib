@@ -19,22 +19,24 @@ import os
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
-from bbc1.libs.bbclib_config import DEFAULT_ID_LEN
 from bbc1.libs import bbclib_utils
+from bbc1 import bbclib
+from bbc1.bbclib import id_length_conf
 
 
 class BBcPointer:
     """Pointer part in a transaction"""
-    def __init__(self, transaction_id=None, asset_id=None, id_length=DEFAULT_ID_LEN):
-        self.id_length = id_length
-        if transaction_id is not None and id_length < 32:
-            self.transaction_id = transaction_id[:id_length]
+    def __init__(self, transaction_id=None, asset_id=None, id_length=None):
+        if id_length is not None:
+            bbclib.configure_id_length_all(id_length)
+        if transaction_id is not None:
+            self.transaction_id = transaction_id[:id_length_conf["transaction_id"]]
         else:
-            self.transaction_id = transaction_id
-        if asset_id is not None and id_length < 32:
-            self.asset_id = asset_id[:id_length]
+            self.transaction_id = None
+        if asset_id is not None:
+            self.asset_id = asset_id[:id_length_conf["asset_id"]]
         else:
-            self.asset_id = asset_id
+            self.asset_id = None
 
     def __str__(self):
         ret =  "     transaction_id: %s\n" % bbclib_utils.str_binary(self.transaction_id)
@@ -44,9 +46,9 @@ class BBcPointer:
     def add(self, transaction_id=None, asset_id=None):
         """Add parts"""
         if transaction_id is not None:
-            self.transaction_id = transaction_id[:self.id_length]
+            self.transaction_id = transaction_id[:id_length_conf["transaction_id"]]
         if asset_id is not None:
-            self.asset_id = asset_id[:self.id_length]
+            self.asset_id = asset_id[:id_length_conf["asset_id"]]
 
     def pack(self):
         """Pack this object
@@ -54,12 +56,12 @@ class BBcPointer:
         Returns:
             bytes: packed binary data
         """
-        dat = bytearray(bbclib_utils.to_bigint(self.transaction_id, size=self.id_length))
+        dat = bytearray(bbclib_utils.to_bigint(self.transaction_id, size=id_length_conf["transaction_id"]))
         if self.asset_id is None:
             dat.extend(bbclib_utils.to_2byte(0))
         else:
             dat.extend(bbclib_utils.to_2byte(1))
-            dat.extend(bbclib_utils.to_bigint(self.asset_id, size=self.id_length))
+            dat.extend(bbclib_utils.to_bigint(self.asset_id, size=id_length_conf["asset_id"]))
         return bytes(dat)
 
     def unpack(self, data):
@@ -76,6 +78,7 @@ class BBcPointer:
             ptr, num = bbclib_utils.get_n_byte_int(ptr, 2, data)
             if num == 1:
                 ptr, self.asset_id = bbclib_utils.get_bigint(ptr, data)
+                id_length_conf["asset_id"] = len(self.asset_id)
             else:
                 self.asset_id = None
         except:

@@ -4,7 +4,7 @@ import pytest
 import binascii
 import sys
 sys.path.extend(["../"])
-from bbc1.libs import KeyPair
+from bbc1.libs import bbclib_keypair
 from bbc1 import bbclib
 
 users = list()
@@ -18,7 +18,7 @@ class TestBBcLib(object):
         print("\n-----", sys._getframe().f_code.co_name, "-----")
         global users
         for i in range(0, 5):
-            users.append([bbclib.get_new_id("user_%d" % i), KeyPair()])
+            users.append([bbclib.get_new_id("user_%d" % i), bbclib_keypair.KeyPair()])
             users[i][1].generate()
 
     def test_01_transaction_with_relation(self):

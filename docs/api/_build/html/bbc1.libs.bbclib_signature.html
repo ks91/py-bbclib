@@ -218,11 +218,14 @@ limitations under the License.</p>
 
 <dl class="method">
 <dt id="bbc1.libs.bbclib_signature.BBcSignature.verify">
-<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param">digest</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_signature.html#BBcSignature.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_signature.BBcSignature.verify" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param">digest</em>, <em class="sig-param">pubkey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_signature.html#BBcSignature.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_signature.BBcSignature.verify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify digest using pubkey in signature</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>digest</strong> (<em>bytes</em>) – digest to verify</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>digest</strong> (<em>bytes</em>) – digest to verify</p></li>
+<li><p><strong>pubkey</strong> (<em>bytes</em>) – external public key for verification</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>0:invalid, 1:valid</p>

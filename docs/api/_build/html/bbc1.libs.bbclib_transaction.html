@@ -184,7 +184,7 @@ See the License for the specific language governing permissions and
 limitations under the License.</p>
 <dl class="class">
 <dt id="bbc1.libs.bbclib_transaction.BBcTransaction">
-<em class="property">class </em><code class="sig-prename descclassname">bbc1.libs.bbclib_transaction.</code><code class="sig-name descname">BBcTransaction</code><span class="sig-paren">(</span><em class="sig-param">version=1</em>, <em class="sig-param">unpack=None</em>, <em class="sig-param">id_length=32</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">bbc1.libs.bbclib_transaction.</code><code class="sig-name descname">BBcTransaction</code><span class="sig-paren">(</span><em class="sig-param">version=1</em>, <em class="sig-param">unpack=None</em>, <em class="sig-param">id_length=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Transaction object</p>
 <dl class="attribute">
@@ -272,7 +272,7 @@ limitations under the License.</p>
 
 <dl class="method">
 <dt id="bbc1.libs.bbclib_transaction.BBcTransaction.sign">
-<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">key_type=2</em>, <em class="sig-param">private_key=None</em>, <em class="sig-param">public_key=None</em>, <em class="sig-param">keypair=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.sign" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">key_type=2</em>, <em class="sig-param">private_key=None</em>, <em class="sig-param">public_key=None</em>, <em class="sig-param">keypair=None</em>, <em class="sig-param">no_pubkey=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbc1/libs/bbclib_transaction.html#BBcTransaction.sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbc1.libs.bbclib_transaction.BBcTransaction.sign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sign the transaction</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -281,6 +281,7 @@ limitations under the License.</p>
 <li><p><strong>private_key</strong> (<em>bytes</em>) – </p></li>
 <li><p><strong>public_key</strong> (<em>bytes</em>) – </p></li>
 <li><p><strong>keypair</strong> (<a class="reference internal" href="bbc1.compat.bbclib.html#bbc1.compat.bbclib.KeyPair" title="bbc1.compat.bbclib.KeyPair"><em>KeyPair</em></a>) – keypair or set of private_key and public_key needs to be given</p></li>
+<li><p><strong>no_pubkey</strong> (<em>bool</em>) – If True, public key is not contained in the BBcSignature object (needs to be given externally when verification)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

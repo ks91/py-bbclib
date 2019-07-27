@@ -5,7 +5,7 @@ sys.path.append('..')
 import os
 import bbc1.bbclib as bbclib
 import binascii
-#import unittest
+
 
 def _is_windows():
     """
@@ -85,6 +85,9 @@ def test_keypair_der():
 
     der = keypair.get_private_key_in_der()
     assert (der == in_der)
+
+    der = keypair.get_public_key_in_der()
+    assert der
 
     keypair.mk_keyobj_from_private_key_der(der)
     assert (bytes(keypair.private_key)[:keypair.private_key_len.value] == in_privkey)

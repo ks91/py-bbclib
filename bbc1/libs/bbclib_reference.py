@@ -20,18 +20,20 @@ import traceback
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
-from bbc1.libs.bbclib_config import DEFAULT_ID_LEN
+from bbc1.bbclib import id_length_conf
+from bbc1 import bbclib
 from bbc1.libs import bbclib_utils
 
 
 class BBcReference:
     """Reference part in a transaction"""
-    def __init__(self, asset_group_id, transaction, ref_transaction=None, event_index_in_ref=0, id_length=DEFAULT_ID_LEN):
-        self.id_length = id_length
+    def __init__(self, asset_group_id, transaction, ref_transaction=None, event_index_in_ref=0, id_length=None):
+        if id_length is not None:
+            bbclib.configure_id_length_all(id_length)
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:self.id_length]
+            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
         else:
-            self.asset_group_id = asset_group_id
+            self.asset_group_id = None
         self.transaction_id = None
         self.transaction = transaction
         self.ref_transaction = ref_transaction
@@ -105,8 +107,8 @@ class BBcReference:
         Returns:
             bytes: packed binary data
         """
-        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=self.id_length))
-        dat.extend(bbclib_utils.to_bigint(self.transaction_id, size=self.id_length))
+        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=id_length_conf["asset_group_id"]))
+        dat.extend(bbclib_utils.to_bigint(self.transaction_id, size=id_length_conf["transaction_id"]))
         dat.extend(bbclib_utils.to_2byte(self.event_index_in_ref))
         dat.extend(bbclib_utils.to_2byte(len(self.sig_indices)))
         for i in range(len(self.sig_indices)):
