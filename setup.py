@@ -44,7 +44,7 @@ bbclib_classifiers = [
 
 setup(
     name='py-bbclib',
-    version='1.3',
+    version='1.4',
     description='The library of BBc-1 transaction data structure definition',
     long_description=readme,
     long_description_content_type='text/markdown',

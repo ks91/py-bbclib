@@ -16,6 +16,38 @@ For the details, please read documents in docs/ directory in [the bbc1 repositor
 
 API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest/index.html).
 
+# Trouble shooting
+
+Installing py-bbclib through pip sometimes fails owing to pip cache trouble. It might occur in the case that you terminate the install process during libbbcsig building process.
+This leads to a defect in the pip cache of libbbcsig module, and resulting in fail installing forever.
+
+To solve the problem, you need to remove pip cache or pip install without using cache. How to solve it is explained below.
+
+### Solution 1
+Removing pip cache directory is a fundamental solution to this problem. The cache directories in various OS platform are as follows:
+
+* Linux and Unix
+  - ~/.cache/pip
+* macOS
+  - ~/Library/Caches/pip
+* Windows
+  - %LocalAppData%\pip\Cache
+
+After removing the cache directory, install py-bbclib module again.
+
+```bash
+python3 -mvenv venv
+. venv/bin/activate
+pip install py-bbclib
+```
+
+### Solution 2
+Disabling cache and re-installing the module is another solution, which is easier way.
+```bash
+python3 -mvenv venv
+. venv/bin/activate
+pip --no-cache-dir install -I py-bbclib
+```
 
 # Environment
 
@@ -42,7 +74,7 @@ API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest
 
     python -mvenv venv
     source venv/bin/activate
-    pip install -r py-bbclib
+    pip install py-bbclib
 
 
 ### build from github repository (this repository)
