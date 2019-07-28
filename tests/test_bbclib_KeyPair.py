@@ -3,7 +3,7 @@ sys.path.append('.')
 sys.path.append('..')
 
 import os
-import bbc1.bbclib as bbclib
+import bbclib
 import binascii
 
 

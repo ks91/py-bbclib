@@ -4,9 +4,9 @@ import pytest
 import binascii
 import sys
 sys.path.extend(["../"])
-from bbc1.bbclib import KeyPair
-from bbc1 import bbclib
-from bbc1.bbclib import configure_id_length
+from bbclib import KeyPair
+import bbclib
+from bbclib import configure_id_length
 
 
 user_id = bbclib.get_new_id("user_id_test1")

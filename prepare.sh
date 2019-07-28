@@ -8,7 +8,7 @@ bash prepare.sh
 
 cd lib
 if [ -f libbbcsig.dylib ]; then
-  cp libbbcsig.dylib ../../bbc1/libs/
+  cp libbbcsig.dylib ../../bbclib/libs/
 elif [ -f libbbcsig.so ]; then
-  cp libbbcsig.so ../../bbc1/libs/
+  cp libbbcsig.so ../../bbclib/libs/
 fi

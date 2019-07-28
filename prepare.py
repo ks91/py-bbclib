@@ -10,12 +10,12 @@ else:
     from distutils.sysconfig import get_python_lib
     sitepackages = [get_python_lib()]
     sitedir = sitepackages[0]
-install_pkg_dir = os.path.join(sitedir, 'bbc1')
+install_pkg_dir = os.path.join(sitedir, 'bbclib')
 target_dir = os.path.join(install_pkg_dir, 'libs')
 os.makedirs(target_dir, exist_ok=True)
-if os.path.exists('bbc1/libs/libbbcsig.so'):
+if os.path.exists('bbclib/libs/libbbcsig.so'):
     dst_path = os.path.join(target_dir, 'libbbcsig.so')
-    shutil.copy('bbc1/libs/libbbcsig.so', dst_path)
-elif os.path.exists('bbc1/libs/libbbcsig.dylib'):
+    shutil.copy('bbclib/libs/libbbcsig.so', dst_path)
+elif os.path.exists('bbclib/libs/libbbcsig.dylib'):
     dst_path = os.path.join(target_dir, 'libbbcsig.dylib')
-shutil.copy('bbc1/libs/libbbcsig.dylib', dst_path)
+shutil.copy('bbclib/libs/libbbcsig.dylib', dst_path)

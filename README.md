@@ -49,6 +49,13 @@ python3 -mvenv venv
 pip --no-cache-dir install -I py-bbclib 
 ```
 
+# Name space has been changed
+
+Before v1.4.1, the namesapce of py-bbclib module was "bbc1". However, This conflicts with that of bbc1 module.
+Therefore, the namespace of py-bbclib has been changed to "bbclib" since v1.4.1.
+Be careful when using py-bbclib module solely.
+
+ 
 # Environment
 
 * Python

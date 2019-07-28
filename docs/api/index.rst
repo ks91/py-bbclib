@@ -1,16 +1,16 @@
-.. bbc1 documentation master file, created by
-   sphinx-quickstart on Tue Jul  9 12:58:51 2019.
+.. bbclib documentation master file, created by
+   sphinx-quickstart on Sun Jul 28 13:56:05 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to bbc1's documentation!
-================================
+Welcome to bbclib's documentation!
+==================================
 
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
 
-   bbc1
+   bbclib
 
 
 Indices and tables

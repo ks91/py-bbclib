@@ -31,7 +31,7 @@ bbclib_requires = [
     'bson'
 ]
 
-bbclib_packages = ['bbc1', 'bbc1.libs', 'bbc1.compat']
+bbclib_packages = ['bbclib', 'bbclib.libs', 'bbclib.compat']
 
 bbclib_commands = []
 
@@ -44,7 +44,7 @@ bbclib_classifiers = [
 
 setup(
     name='py-bbclib',
-    version='1.4',
+    version='1.4.1',
     description='The library of BBc-1 transaction data structure definition',
     long_description=readme,
     long_description_content_type='text/markdown',
