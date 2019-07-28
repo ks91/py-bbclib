@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.4.1
+* change namespace of module from "bbc1" to "bbclib"
+
 ## v1.4
 * ID length configuration support
 * External public key support
