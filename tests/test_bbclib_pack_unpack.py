@@ -4,8 +4,8 @@ import pytest
 import binascii
 import sys
 sys.path.extend(["../"])
-from bbc1.libs import bbclib_keypair
-from bbc1 import bbclib
+from bbclib.libs import bbclib_keypair
+import bbclib
 
 users = list()
 domain_id = bbclib.get_new_id("testdomain")
