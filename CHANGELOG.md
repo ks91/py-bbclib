@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.4.2
+* modify transaction validation tool for bbc1 (skip signature validation if no public key included)
+
 ## v1.4.1
 * change namespace of module from "bbc1" to "bbclib"
 
