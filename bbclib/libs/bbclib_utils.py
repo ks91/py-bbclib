@@ -254,6 +254,8 @@ def validate_transaction_object(txobj, asset_files=None):
     """
     digest = txobj.digest()
     for i, sig in enumerate(txobj.signatures):
+        if sig.pubkey is None:
+            continue
         try:
             if not sig.verify(digest):
                 return False, (), ()

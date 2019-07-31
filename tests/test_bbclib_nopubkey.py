@@ -6,7 +6,7 @@ import sys
 sys.path.extend(["../"])
 from bbclib import KeyPair
 import bbclib
-from bbclib import configure_id_length
+from bbclib import configure_id_length, validate_transaction_object
 
 
 user_id = bbclib.get_new_id("user_id_test1")
@@ -108,5 +108,7 @@ class TestBBcLib(object):
             assert len(txdata_deserialized[i].relations[0].asset.user_id) == id_length["user_id"]
             assert len(txdata_deserialized[i].relations[0].asset.asset_id) == id_length["asset_id"]
             ret = txdata_deserialized[i].signatures[0].verify(digest, pubkey=keypair1.public_key)
+            assert ret
+            ret, _, _ = validate_transaction_object(txdata_deserialized[i])
             assert ret
         print(txdata_deserialized[19])
