@@ -125,6 +125,35 @@ def test_keypair_sign_and_verify():
     assert (ret == 0)
 
 
+def test_export_import_p256v1():
+    keypair1 = bbclib.KeyPair(curvetype=bbclib.KeyType.ECDSA_P256v1)
+    keypair1.generate()
+    pem = keypair1.get_private_key_in_pem()
+    der = keypair1.get_private_key_in_der()
+
+    keypair2 = bbclib.KeyPair(curvetype=0)
+    keypair2.mk_keyobj_from_private_key_pem(pem.decode())
+    assert keypair2.curvetype == keypair1.curvetype
+
+    keypair3 = bbclib.KeyPair(curvetype=0)
+    keypair3.mk_keyobj_from_private_key_der(der)
+    assert keypair2.curvetype == keypair1.curvetype
+
+
+def test_export_import_secp256k1():
+    keypair1 = bbclib.KeyPair(curvetype=bbclib.KeyType.ECDSA_SECP256k1)
+    keypair1.generate()
+    pem = keypair1.get_private_key_in_pem()
+    der = keypair1.get_private_key_in_der()
+
+    keypair2 = bbclib.KeyPair(curvetype=0)
+    keypair2.mk_keyobj_from_private_key_pem(pem.decode())
+    assert keypair2.curvetype == keypair1.curvetype
+
+    keypair3 = bbclib.KeyPair(curvetype=0)
+    keypair3.mk_keyobj_from_private_key_der(der)
+    assert keypair2.curvetype == keypair1.curvetype
+
 """
 def test_import_certificate():
     # this test always fails because the cert had expired. (put new cert pem in x509cert and privkey!)
