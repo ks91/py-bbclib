@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.4.3
+* modify key import function to use libbcsig v1.4 for setting curvetype in KeyPair object
+
 ## v1.4.2
 * modify transaction validation tool for bbc1 (skip signature validation if no public key included)
 
