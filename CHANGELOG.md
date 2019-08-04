@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.4.4
+* Bug fix
+
 ## v1.4.3
 * modify key import function to use libbcsig v1.4 for setting curvetype in KeyPair object
 
