@@ -21,6 +21,7 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 
 from bbclib.libs import bbclib_utils
+from bbclib import id_length_conf
 
 
 class BBcCrossRef:
@@ -44,7 +45,7 @@ class BBcCrossRef:
             bytes: packed binary data
         """
         dat = bytearray(bbclib_utils.to_bigint(self.domain_id))
-        dat.extend(bbclib_utils.to_bigint(self.transaction_id))
+        dat.extend(bbclib_utils.to_bigint(self.transaction_id, id_length_conf["transaction_id"]))
         return bytes(dat)
 
     def unpack(self, data):
