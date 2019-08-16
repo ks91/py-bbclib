@@ -1,8 +1,11 @@
 import subprocess
+import sys
+import os
 from os import path
 from setuptools import setup
 from setuptools.command.install import install
 
+VERSION = "1.4.4"
 
 here = path.abspath(path.dirname(__file__))
 
@@ -21,6 +24,20 @@ class MyInstall(install):
             exit(1)
         else:
             install.run(self)
+
+
+class VerifyVersionCommand(install):
+    """Custom command to verify that the git tag matches our version"""
+    description = 'verify that the git tag matches our version'
+
+    def run(self):
+        tag = os.getenv('CIRCLE_TAG')
+
+        if tag != "v%s" % VERSION:
+            info = "Git tag: {0} does not match the version of this app: {1}".format(
+                tag, "v%s" % VERSION
+            )
+            sys.exit(info)
 
 
 bbclib_requires = [
@@ -44,7 +61,7 @@ bbclib_classifiers = [
 
 setup(
     name='py-bbclib',
-    version='1.4.4',
+    version=VERSION,
     description='The library of BBc-1 transaction data structure definition',
     long_description=readme,
     long_description_content_type='text/markdown',
@@ -53,7 +70,7 @@ setup(
     author_email='bbc1-dev@beyond-blockchain.org',
     license='Apache License 2.0',
     classifiers=bbclib_classifiers,
-    cmdclass={'install': MyInstall},
+    cmdclass={'install': MyInstall, 'verify': VerifyVersionCommand},
     packages=bbclib_packages,
     scripts=bbclib_commands,
     install_requires=bbclib_requires,

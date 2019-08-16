@@ -1,6 +1,10 @@
 py-bbclib
 ====
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CircleCI](https://circleci.com/gh/beyond-blockchain/py-bbclib.svg?style=shield)](https://circleci.com/gh/beyond-blockchain/py-bbclib)
+
+
 The library that defines BBc-1 transaction data structure is decoupled from [the bbc1 repository](https://github.com/beyond-blockchain/bbc1).
 
 BBc-1 is a Python-based reference implementation of BBc-1, a trustable system of record keeping beyond blockchains. The transaction data structure definition is the most important part of BBc-1.
