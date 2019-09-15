@@ -1,6 +1,10 @@
 py-bbclib
 ====
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![CircleCI](https://circleci.com/gh/beyond-blockchain/py-bbclib.svg?style=shield)](https://circleci.com/gh/beyond-blockchain/py-bbclib)
+
+
 The library that defines BBc-1 transaction data structure is decoupled from [the bbc1 repository](https://github.com/beyond-blockchain/bbc1).
 
 BBc-1 is a Python-based reference implementation of BBc-1, a trustable system of record keeping beyond blockchains. The transaction data structure definition is the most important part of BBc-1.
@@ -12,7 +16,7 @@ A transaction should be signed by the players who are the stake holders of the d
 BBc-1 can be applied to both private/enterprise use and public use. BBc-1 has a concept of *domain* for determining a region of data management. Any networking implementation (like Kademlia for P2P topology management) can be applied for each domain.
 Although there are many TODOs in BBc-1, this reference implementation includes most of the concept of BBc-1 and would work in private/enterprise systems. When sophisticated P2P algorithms are ready, BBc-1 will be able to support public use cases.
 
-For the details, please read documents in docs/ directory in [the bbc1 repository](https://github.com/beyond-blockchain/bbc1). Not only documents but slide decks (PDF) explain the design of the BBc-1 and its implementation.
+For the details, please read documents in [docs/ directory](https://github.com/beyond-blockchain/py-bbclib/tree/develop/docs) or [the bbc1 repository](https://github.com/beyond-blockchain/bbc1). Not only documents but slide decks (PDF) explain the design of the BBc-1 and its implementation.
 
 API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest/index.html).
 
@@ -46,10 +50,10 @@ Disabling cache and re-installing the module is another solution, which is easie
 ```bash
 python3 -mvenv venv
 . venv/bin/activate
-pip --no-cache-dir install -I py-bbclib
+pip --no-cache-dir install -I py-bbclib 
 ```
 
-# Namespace is changed at v1.4.1
+# Namespace is changed at v1.4.1 
 
 Before v1.4.1, the namesapce of py-bbclib module was "bbc1". However, This conflicts with that of bbc1 module.
 Therefore, the namespace of py-bbclib has been changed to "bbclib" since v1.4.1.
@@ -91,6 +95,6 @@ This project needs an external library, [libbbcsig](https://github.com/beyond-bl
     cd py-bbclib
     bash prepare.sh
 
-You will find a dynamic link library (libbbcsig.so or libbbcsig.dylib) in bbc1/libs/ directory.
+You will find a dynamic link library (libbbcsig.so or libbbcsig.dylib) in bbclib/libs/ directory.
 
  
