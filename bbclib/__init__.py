@@ -40,6 +40,8 @@ import bbclib.libs.bbclib_transaction as bbclib_transaction
 import bbclib.libs.bbclib_signature as bbclib_signature
 import bbclib.libs.bbclib_keypair as bbclib_keypair
 import bbclib.libs.bbclib_asset as bbclib_asset
+import bbclib.libs.bbclib_asset_raw as bbclib_asset_raw
+import bbclib.libs.bbclib_asset_hash as bbclib_asset_hash
 import bbclib.libs.bbclib_crossref as bbclib_crossref
 import bbclib.libs.bbclib_event as bbclib_event
 import bbclib.libs.bbclib_msgtype as bbclib_msgtype
@@ -127,10 +129,14 @@ convert_idstring_to_bytes = bbclib_utils.convert_idstring_to_bytes
 deep_copy_with_key_stringify = bbclib_utils.deep_copy_with_key_stringify
 make_transaction = bbclib_utils.make_transaction
 add_relation_asset = bbclib_utils.add_relation_asset
+add_relation_asset_raw = bbclib_utils.add_relation_asset_raw
+add_relation_asset_hash = bbclib_utils.add_relation_asset_hash
 add_relation_pointer = bbclib_utils.add_relation_pointer
 add_reference_to_transaction = bbclib_utils.add_reference_to_transaction
 add_event_asset = bbclib_utils.add_event_asset
 make_relation_with_asset = bbclib_utils.make_relation_with_asset
+make_relation_with_asset_raw = bbclib_utils.make_relation_with_asset_raw
+make_relation_with_asset_hash = bbclib_utils.make_relation_with_asset_hash
 add_pointer_in_relation = bbclib_utils.add_pointer_in_relation
 recover_signature_object = bbclib_utils.recover_signature_object
 validate_transaction_object = bbclib_utils.validate_transaction_object
@@ -150,4 +156,6 @@ BBcRelation = bbclib_relation.BBcRelation
 BBcPointer = bbclib_pointer.BBcPointer
 BBcWitness = bbclib_witness.BBcWitness
 BBcAsset = bbclib_asset.BBcAsset
+BBcAssetRaw = bbclib_asset_raw.BBcAssetRaw
+BBcAssetHash = bbclib_asset_hash.BBcAssetHash
 BBcCrossRef = bbclib_crossref.BBcCrossRef
