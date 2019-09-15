@@ -16,7 +16,7 @@ A transaction should be signed by the players who are the stake holders of the d
 BBc-1 can be applied to both private/enterprise use and public use. BBc-1 has a concept of *domain* for determining a region of data management. Any networking implementation (like Kademlia for P2P topology management) can be applied for each domain.
 Although there are many TODOs in BBc-1, this reference implementation includes most of the concept of BBc-1 and would work in private/enterprise systems. When sophisticated P2P algorithms are ready, BBc-1 will be able to support public use cases.
 
-For the details, please read documents in docs/ directory in [the bbc1 repository](https://github.com/beyond-blockchain/bbc1). Not only documents but slide decks (PDF) explain the design of the BBc-1 and its implementation.
+For the details, please read documents in [docs/ directory](https://github.com/beyond-blockchain/py-bbclib/tree/develop/docs) or [the bbc1 repository](https://github.com/beyond-blockchain/bbc1). Not only documents but slide decks (PDF) explain the design of the BBc-1 and its implementation.
 
 API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest/index.html).
 
@@ -59,7 +59,7 @@ Before v1.4.1, the namesapce of py-bbclib module was "bbc1". However, This confl
 Therefore, the namespace of py-bbclib has been changed to "bbclib" since v1.4.1.
 Be careful when using py-bbclib module solely.
 
- 
+
 # Environment
 
 * Python
