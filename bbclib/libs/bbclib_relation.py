@@ -31,7 +31,7 @@ from bbclib import id_length_conf
 
 class BBcRelation:
     """Relation part in a transaction"""
-    def __init__(self, asset_group_id=None, id_length=None, version=2):
+    def __init__(self, asset_group_id=None, id_length=None, version=1):
         self.version = version
         if id_length is not None:
             bbclib.configure_id_length_all(id_length)
@@ -94,7 +94,7 @@ class BBcRelation:
             dat.extend(ast)
         else:
             dat.extend(bbclib_utils.to_4byte(0))
-        if self.version >= 3:
+        if self.version >= 2:
             if self.asset_raw is not None:
                 ast = self.asset_raw.pack()
                 dat.extend(bbclib_utils.to_4byte(len(ast)))
@@ -143,7 +143,7 @@ class BBcRelation:
                 if not self.asset.unpack(astdata):
                     return False
 
-            if version >= 3:
+            if version >= 2:
                 self.asset_raw = None
                 ptr, astsize = bbclib_utils.get_n_byte_int(ptr, 4, data)
                 if astsize > 0:

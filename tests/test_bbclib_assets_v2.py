@@ -38,7 +38,7 @@ class TestBBcLib(object):
     def test_01_transaction_with_relation_and_witness_and_proof(self):
         print("\n-----", sys._getframe().f_code.co_name, "-----")
         transaction1 = bbclib.make_transaction(relation_num=1, witness=True)
-        transaction1.version = 3
+        transaction1.version = 2
 
         bbclib.add_relation_asset(transaction1, relation_idx=0, asset_group_id=asset_group_id,
                                   user_id=user_id, asset_body=b'ccccc')
