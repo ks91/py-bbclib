@@ -139,7 +139,7 @@ def deep_copy_with_key_stringify(u, d=None):
     return d
 
 
-def make_transaction(event_num=0, relation_num=0, witness=False, version=2):
+def make_transaction(event_num=0, relation_num=0, witness=False, version=1):
     """Utility to make transaction object
 
     Args:
@@ -274,7 +274,7 @@ def make_relation_with_asset_raw(asset_group_id, asset_id=None, asset_body=None)
     Returns:
         BBcRelation: created BBcRelation object
     """
-    relation = BBcRelation(version=3)
+    relation = BBcRelation(version=2)
     ast = BBcAssetRaw()
     relation.add(asset_group_id=asset_group_id, asset_raw=ast)
     ast.add(asset_id=asset_id, asset_body=asset_body)
@@ -290,7 +290,7 @@ def make_relation_with_asset_hash(asset_group_id, asset_ids=None):
     Returns:
         BBcRelation: created BBcRelation object
     """
-    relation = BBcRelation(version=3)
+    relation = BBcRelation(version=2)
     ast = BBcAssetHash()
     relation.add(asset_group_id=asset_group_id, asset_hash=ast)
     ast.add(asset_ids=asset_ids)

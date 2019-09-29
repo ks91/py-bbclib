@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.5.1
+* bug fix
+
 ## v1.5
 * add BBcAssetRaw and BBcAssetHash classes
 * the version in BBcTransaction header is 3

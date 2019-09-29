@@ -54,7 +54,7 @@ jobs:
             pytest test_bbclib_idlen.py
             pytest test_bbclib_nopubkey.py
             pytest test_bbclib_pack_unpack.py
-            pytest test_bbclib_assets_v3.py
+            pytest test_bbclib_assets_v2.py
       - save_cache:
           key: v1-dependency-cache-{{ checksum "setup.py" }}
           paths:
@@ -85,7 +85,6 @@ jobs:
             pip install wheel twine
             rm -rf dist/ bbclib.egg-info/
             python setup.py sdist
-            python setup.py bdist_wheel
             twine upload --repository pypi dist/*
       - save_cache:
           key: v1-dependency-cache-{{ checksum "setup.py" }}
