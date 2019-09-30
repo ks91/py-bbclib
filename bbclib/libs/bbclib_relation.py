@@ -82,6 +82,8 @@ class BBcRelation:
         Returns:
             bytes: packed binary data
         """
+        if self.asset_group_id is None:
+            raise Exception("need asset_group_id in BBcRelation")
         dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=id_length_conf["asset_group_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.pointers)))
         for i in range(len(self.pointers)):
