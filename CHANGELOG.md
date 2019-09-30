@@ -1,12 +1,15 @@
 Change log
 ======
 
+## v1.5.2
+* add assertion in BBcRelation and BBcEvent
+
 ## v1.5.1
 * bug fix
 
 ## v1.5
 * add BBcAssetRaw and BBcAssetHash classes
-* the version in BBcTransaction header is 3
+* the version in BBcTransaction header is ~~3~~ 2
 
 ## v1.4.4
 * Bug fix
