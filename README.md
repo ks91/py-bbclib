@@ -20,14 +20,14 @@ For the details, please read documents in [docs/ directory](https://github.com/b
 
 API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest/index.html).
 
-# libbbcsig becomes optional at v1.5.3
+## libbbcsig becomes optional at v1.5.3
 
 Before v1.5.2, [libbbcsig module](https://github.com/beyond-blockchain/libbbcsig) was required by py-bbclib. So, building libbbcsig at pip install took very long time, and sometimes it leads to cache problem. py-bbclib v1.5.3 newly includes [cryptograpy module](https://github.com/pyca/cryptography) for crypto-related procedures. KeyPairPy class in bbclib_keypair.py includes the new feature and KeyPairFast class in bbclib_keypair_fast.py is the same script as bbclib_keypair.py in the older version. bbclib_keypair.py automatically checks whether libbbcsig is installed or not, and if not installed, bbclib_keypair.py fallbacks to use cryptography module based class.
 
 Just run,
 
 ```bash
-pip install py-bbclib
+    pip install py-bbclib
 ```
 
 You will find that the module is installed more quickly than before.
@@ -45,14 +45,14 @@ The sign/verify performance comparison on MacBookPro 2016 (2.7 GHz Quad core Int
 
 
 
-# Namespace is changed at v1.4.1 
+## Namespace is changed at v1.4.1 
 
 Before v1.4.1, the namesapce of py-bbclib module was "bbc1". However, This conflicts with that of bbc1 module.
 Therefore, the namespace of py-bbclib has been changed to "bbclib" since v1.4.1.
 Be careful when using py-bbclib module solely.
 
 
-# Environment
+## Environment
 
 * Python
     - Python 3.5.0 or later
@@ -64,7 +64,7 @@ Be careful when using py-bbclib module solely.
     xcode-select --install
     brew install libtool automake python3 openssl
     pip3 install virtualenv
-```
+    ```
     
 * tools for Linux (Ubuntu 16.04 LTS, 18.04 LTS)
     ```
@@ -72,14 +72,13 @@ Be careful when using py-bbclib module solely.
     sudo apt-get install -y git tzdata openssh-server python3 python3-dev python3-pip python3-venv libffi-dev net-tools autoconf automake libtool libssl-dev make
     ```
 
-# Install
+## Install
 
-### install module using pip
-
+```bash
     python -mvenv venv
     source venv/bin/activate
     pip install py-bbclib
-
+```
 
 ### install libbbcsig (optional)
 An external library, [libbbcsig](https://github.com/beyond-blockchain/libbbcsig) makes sign/verify of transaction data faster. After pip install, two utilities are installed in your venv/bin. 
@@ -87,12 +86,12 @@ An external library, [libbbcsig](https://github.com/beyond-blockchain/libbbcsig)
 "install_libbbcsig" command downloads the libbbcsig repository, builds libbbcsig and installs the dynamic link library in your venv. Just run as follows:
 
 ```bash
-install_libbbcsig
+    install_libbbcsig
 ```
 
 install_libbbcsig command builds the library in /tmp/tmp.libbbcsig.xxxxx directory (xxxxx part is the process number). If you want to reuse the module, you can use "copy_libbbcsig" command to copy library from the repository directory that includes the built library as follows:
 
 ```
-copy_libbbcsig /tmp/tmp.libbbcsig.xxxxx
+    copy_libbbcsig /tmp/tmp.libbbcsig.xxxxx
 ```
 
