@@ -50,7 +50,6 @@ jobs:
             . venv/bin/activate
             cd tests
             pytest test_bbclib.py
-            pytest test_bbclib_KeyPair.py
             pytest test_bbclib_idlen.py
             pytest test_bbclib_nopubkey.py
             pytest test_bbclib_pack_unpack.py
@@ -59,7 +58,6 @@ jobs:
           key: v1-dependency-cache-{{ checksum "setup.py" }}
           paths:
             - "venv"
-            - "libs"
   deploy:
     docker:
       - image: circleci/python:3.7
@@ -85,6 +83,7 @@ jobs:
             pip install wheel twine
             rm -rf dist/ bbclib.egg-info/
             python setup.py sdist
+            python setup.py bdist_wheel
             twine upload --repository pypi dist/*
       - save_cache:
           key: v1-dependency-cache-{{ checksum "setup.py" }}
