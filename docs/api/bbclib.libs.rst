@@ -7,13 +7,14 @@ Submodules
 .. toctree::
 
    bbclib.libs.bbclib_asset
-   bbclib.libs.bbclib_asset_raw
    bbclib.libs.bbclib_asset_hash
+   bbclib.libs.bbclib_asset_raw
    bbclib.libs.bbclib_config
    bbclib.libs.bbclib_crossref
    bbclib.libs.bbclib_error
    bbclib.libs.bbclib_event
    bbclib.libs.bbclib_keypair
+   bbclib.libs.bbclib_keypair_fast
    bbclib.libs.bbclib_msgtype
    bbclib.libs.bbclib_pointer
    bbclib.libs.bbclib_reference
