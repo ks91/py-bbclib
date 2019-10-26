@@ -20,38 +20,30 @@ For the details, please read documents in [docs/ directory](https://github.com/b
 
 API doc is ready at [readthedocs.org](https://py-bbclib.readthedocs.io/en/latest/index.html).
 
-# Trouble shooting
+# libbbcsig becomes optional at v1.5.3
 
-Installing py-bbclib through pip sometimes fails owing to pip cache trouble. It might occur in the case that you terminate the install process during libbbcsig building process.
-This leads to a defect in the pip cache of libbbcsig module, and resulting in fail installing forever.
+Before v1.5.2, [libbbcsig module](https://github.com/beyond-blockchain/libbbcsig) was required by py-bbclib. So, building libbbcsig at pip install took very long time, and sometimes it leads to cache problem. py-bbclib v1.5.3 newly includes [cryptograpy module](https://github.com/pyca/cryptography) for crypto-related procedures. KeyPairPy class in bbclib_keypair.py includes the new feature and KeyPairFast class in bbclib_keypair_fast.py is the same script as bbclib_keypair.py in the older version. bbclib_keypair.py automatically checks whether libbbcsig is installed or not, and if not installed, bbclib_keypair.py fallbacks to use cryptography module based class.
 
-To solve the problem, you need to remove pip cache or pip install without using cache. How to solve it is explained below.
-
-### Solution 1
-Removing pip cache directory is a fundamental solution to this problem. The cache directories in various OS platform are as follows:
-
-* Linux and Unix
-  - ~/.cache/pip
-* macOS
-  - ~/Library/Caches/pip
-* Windows
-  - %LocalAppData%\pip\Cache
-
-After removing the cache directory, install py-bbclib module again.
+Just run,
 
 ```bash
-python3 -mvenv venv
-. venv/bin/activate
 pip install py-bbclib
 ```
 
-### Solution 2
-Disabling cache and re-installing the module is another solution, which is easier way.
-```bash
-python3 -mvenv venv
-. venv/bin/activate
-pip --no-cache-dir install -I py-bbclib 
-```
+You will find that the module is installed more quickly than before.
+
+The drawback of using fallback mode ([cryptograpy module](https://github.com/pyca/cryptography)) is slower transaction speed. Concretely, sign/verify speed is about half as fast as that of libbbcsig based mode.
+
+The sign/verify performance comparison on MacBookPro 2016 (2.7 GHz Quad core Intel Core i7 with 16GB RAM) is shown below.
+
+| Mode                   | time to complete 20,000 times sign and verify |
+| ---------------------- | --------------------------------------------- |
+| use libbbcsig          | about 8 seconds                               |
+| use cryptograpy module | about 15 seconds                              |
+
+*condition: The test code creates a BBcTransaction object with 2 signatures and verify this transaction object. This unit os sign/verify process is iterated 10,000 times.*
+
+
 
 # Namespace is changed at v1.4.1 
 
@@ -69,10 +61,11 @@ Be careful when using py-bbclib module solely.
 
 * tools for macOS by Homebrew
     ```
-    brew install libtool automake python3
+    xcode-select --install
+    brew install libtool automake python3 openssl
     pip3 install virtualenv
-    ```
-
+```
+    
 * tools for Linux (Ubuntu 16.04 LTS, 18.04 LTS)
     ```
     sudo apt-get update
@@ -88,13 +81,18 @@ Be careful when using py-bbclib module solely.
     pip install py-bbclib
 
 
-### build from github repository (this repository)
-This project needs an external library, [libbbcsig](https://github.com/beyond-blockchain/libbbcsig), for sign/verify of transaction data. This repository includes setup script to build the external library.
+### install libbbcsig (optional)
+An external library, [libbbcsig](https://github.com/beyond-blockchain/libbbcsig) makes sign/verify of transaction data faster. After pip install, two utilities are installed in your venv/bin. 
 
-    git clone https://github.com/beyond-blockchain/py-bbclib
-    cd py-bbclib
-    bash prepare.sh
+"install_libbbcsig" command downloads the libbbcsig repository, builds libbbcsig and installs the dynamic link library in your venv. Just run as follows:
 
-You will find a dynamic link library (libbbcsig.so or libbbcsig.dylib) in bbclib/libs/ directory.
+```bash
+install_libbbcsig
+```
 
- 
+install_libbbcsig command builds the library in /tmp/tmp.libbbcsig.xxxxx directory (xxxxx part is the process number). If you want to reuse the module, you can use "copy_libbbcsig" command to copy library from the repository directory that includes the built library as follows:
+
+```
+copy_libbbcsig /tmp/tmp.libbbcsig.xxxxx
+```
+
