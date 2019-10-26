@@ -5,7 +5,7 @@ from os import path
 from setuptools import setup
 from setuptools.command.install import install
 
-VERSION = "1.5.4"
+VERSION = "1.5.3"
 
 here = path.abspath(path.dirname(__file__))
 
@@ -41,7 +41,6 @@ class VerifyVersionCommand(install):
 bbclib_requires = [
     'pyOpenSSL>=16.2.0',
     'cryptography>=2.1.4',
-    'pytest<=3.2.*,>=3.0.5',
     'msgpack-python>=0.4.8',
     'bson'
 ]
