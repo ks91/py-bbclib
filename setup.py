@@ -41,7 +41,6 @@ class VerifyVersionCommand(install):
 bbclib_requires = [
     'pyOpenSSL>=16.2.0',
     'cryptography>=2.1.4',
-    'pytest<=3.2.*,>=3.0.5',
     'msgpack-python>=0.4.8',
     'bson'
 ]
