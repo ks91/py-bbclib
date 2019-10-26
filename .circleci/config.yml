@@ -46,7 +46,6 @@ jobs:
       - run:
           name: Perform test
           command: |
-            bash prepare.sh
             . venv/bin/activate
             cd tests
             pytest test_bbclib.py
