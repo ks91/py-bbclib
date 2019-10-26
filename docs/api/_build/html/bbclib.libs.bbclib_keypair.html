@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="bbclib.libs.bbclib_msgtype module" href="bbclib.libs.bbclib_msgtype.html" />
+    <link rel="next" title="bbclib.libs.bbclib_keypair_fast module" href="bbclib.libs.bbclib_keypair_fast.html" />
     <link rel="prev" title="bbclib.libs.bbclib_event module" href="bbclib.libs.bbclib_event.html" /> 
 </head>
 
@@ -181,78 +181,84 @@ distributed under the License is distributed on an “AS IS” BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.</p>
-<dl class="class">
+<dl class="attribute">
 <dt id="bbclib.libs.bbclib_keypair.KeyPair">
-<em class="property">class </em><code class="sig-prename descclassname">bbclib.libs.bbclib_keypair.</code><code class="sig-name descname">KeyPair</code><span class="sig-paren">(</span><em class="sig-param">curvetype=2</em>, <em class="sig-param">compression=False</em>, <em class="sig-param">privkey=None</em>, <em class="sig-param">pubkey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">bbclib.libs.bbclib_keypair.</code><code class="sig-name descname">KeyPair</code><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#bbclib.libs.bbclib_keypair.KeyPairPy" title="bbclib.libs.bbclib_keypair.KeyPairPy"><code class="xref py py-class docutils literal notranslate"><span class="pre">bbclib.libs.bbclib_keypair.KeyPairPy</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy">
+<em class="property">class </em><code class="sig-prename descclassname">bbclib.libs.bbclib_keypair.</code><code class="sig-name descname">KeyPairPy</code><span class="sig-paren">(</span><em class="sig-param">curvetype=2</em>, <em class="sig-param">compression=False</em>, <em class="sig-param">privkey=None</em>, <em class="sig-param">pubkey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="attribute">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.POINT_CONVERSION_COMPRESSED">
-<code class="sig-name descname">POINT_CONVERSION_COMPRESSED</code><em class="property"> = 2</em><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.POINT_CONVERSION_COMPRESSED" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.POINT_CONVERSION_COMPRESSED">
+<code class="sig-name descname">POINT_CONVERSION_COMPRESSED</code><em class="property"> = 2</em><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.POINT_CONVERSION_COMPRESSED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.POINT_CONVERSION_UNCOMPRESSED">
-<code class="sig-name descname">POINT_CONVERSION_UNCOMPRESSED</code><em class="property"> = 4</em><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.POINT_CONVERSION_UNCOMPRESSED" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.POINT_CONVERSION_UNCOMPRESSED">
+<code class="sig-name descname">POINT_CONVERSION_UNCOMPRESSED</code><em class="property"> = 4</em><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.POINT_CONVERSION_UNCOMPRESSED" title="Permalink to this definition">¶</a></dt>
 <dd><p>Key pair container</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.generate">
-<code class="sig-name descname">generate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.generate" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.generate">
+<code class="sig-name descname">generate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.generate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a new key pair</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.get_private_key_in_der">
-<code class="sig-name descname">get_private_key_in_der</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.get_private_key_in_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.get_private_key_in_der" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.get_private_key_in_der">
+<code class="sig-name descname">get_private_key_in_der</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.get_private_key_in_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.get_private_key_in_der" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return private key in DER format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.get_private_key_in_pem">
-<code class="sig-name descname">get_private_key_in_pem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.get_private_key_in_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.get_private_key_in_pem" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.get_private_key_in_pem">
+<code class="sig-name descname">get_private_key_in_pem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.get_private_key_in_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.get_private_key_in_pem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return private key in PEM format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.get_public_key_in_der">
-<code class="sig-name descname">get_public_key_in_der</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.get_public_key_in_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.get_public_key_in_der" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.get_public_key_in_der">
+<code class="sig-name descname">get_public_key_in_der</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.get_public_key_in_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.get_public_key_in_der" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return private key in DER format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.get_public_key_in_pem">
-<code class="sig-name descname">get_public_key_in_pem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.get_public_key_in_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.get_public_key_in_pem" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.get_public_key_in_pem">
+<code class="sig-name descname">get_public_key_in_pem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.get_public_key_in_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.get_public_key_in_pem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return public key in PEM format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.import_publickey_cert_pem">
-<code class="sig-name descname">import_publickey_cert_pem</code><span class="sig-paren">(</span><em class="sig-param">cert_pemstring</em>, <em class="sig-param">privkey_pemstring=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.import_publickey_cert_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.import_publickey_cert_pem" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.import_publickey_cert_pem">
+<code class="sig-name descname">import_publickey_cert_pem</code><span class="sig-paren">(</span><em class="sig-param">cert_pemstring</em>, <em class="sig-param">privkey_pemstring=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.import_publickey_cert_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.import_publickey_cert_pem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify and import X509 public key certificate in pem format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.mk_keyobj_from_private_key">
-<code class="sig-name descname">mk_keyobj_from_private_key</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.mk_keyobj_from_private_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.mk_keyobj_from_private_key" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key">
+<code class="sig-name descname">mk_keyobj_from_private_key</code><span class="sig-paren">(</span><em class="sig-param">privkey</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.mk_keyobj_from_private_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a keypair object from the binary data of private key</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.mk_keyobj_from_private_key_der">
-<code class="sig-name descname">mk_keyobj_from_private_key_der</code><span class="sig-paren">(</span><em class="sig-param">derdat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.mk_keyobj_from_private_key_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.mk_keyobj_from_private_key_der" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key_der">
+<code class="sig-name descname">mk_keyobj_from_private_key_der</code><span class="sig-paren">(</span><em class="sig-param">derdat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.mk_keyobj_from_private_key_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key_der" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a keypair object from the private key in DER format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.mk_keyobj_from_private_key_pem">
-<code class="sig-name descname">mk_keyobj_from_private_key_pem</code><span class="sig-paren">(</span><em class="sig-param">pemdat_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.mk_keyobj_from_private_key_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.mk_keyobj_from_private_key_pem" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key_pem">
+<code class="sig-name descname">mk_keyobj_from_private_key_pem</code><span class="sig-paren">(</span><em class="sig-param">pemdat_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.mk_keyobj_from_private_key_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key_pem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a keypair object from the private key in PEM format</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.sign">
-<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">digest</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.sign" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.sign">
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">digest</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.sign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sign to the given value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,14 +274,14 @@ limitations under the License.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.to_binary">
-<code class="sig-name descname">to_binary</code><span class="sig-paren">(</span><em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.to_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.to_binary" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.to_binary">
+<code class="sig-name descname">to_binary</code><span class="sig-paren">(</span><em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.to_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.to_binary" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="bbclib.libs.bbclib_keypair.KeyPair.verify">
-<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param">digest</em>, <em class="sig-param">sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPair.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPair.verify" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify the digest and the signature using the rivate key in this object</p>
+<dt id="bbclib.libs.bbclib_keypair.KeyPairPy.verify">
+<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param">digest</em>, <em class="sig-param">sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_keypair.html#KeyPairPy.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_keypair.KeyPairPy.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify the digest and the signature using the private key in this object</p>
 </dd></dl>
 
 </dd></dl>
@@ -311,7 +317,7 @@ limitations under the License.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bbclib.libs.bbclib_msgtype.html" class="btn btn-neutral float-right" title="bbclib.libs.bbclib_msgtype module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="bbclib.libs.bbclib_keypair_fast.html" class="btn btn-neutral float-right" title="bbclib.libs.bbclib_keypair_fast module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="bbclib.libs.bbclib_event.html" class="btn btn-neutral float-left" title="bbclib.libs.bbclib_event module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

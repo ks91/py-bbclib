@@ -1077,6 +1077,105 @@ bytes: the file content</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="bbclib.compat.bbclib.KeyPairFast">
+<em class="property">class </em><code class="sig-prename descclassname">bbclib.compat.bbclib.</code><code class="sig-name descname">KeyPairFast</code><span class="sig-paren">(</span><em class="sig-param">curvetype=2</em>, <em class="sig-param">compression=False</em>, <em class="sig-param">privkey=None</em>, <em class="sig-param">pubkey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="bbclib.compat.bbclib.KeyPairFast.POINT_CONVERSION_COMPRESSED">
+<code class="sig-name descname">POINT_CONVERSION_COMPRESSED</code><em class="property"> = 2</em><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.POINT_CONVERSION_COMPRESSED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="bbclib.compat.bbclib.KeyPairFast.POINT_CONVERSION_UNCOMPRESSED">
+<code class="sig-name descname">POINT_CONVERSION_UNCOMPRESSED</code><em class="property"> = 4</em><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.POINT_CONVERSION_UNCOMPRESSED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Key pair container</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.generate">
+<code class="sig-name descname">generate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a new key pair</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.get_private_key_in_der">
+<code class="sig-name descname">get_private_key_in_der</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.get_private_key_in_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.get_private_key_in_der" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return private key in DER format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.get_private_key_in_pem">
+<code class="sig-name descname">get_private_key_in_pem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.get_private_key_in_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.get_private_key_in_pem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return private key in PEM format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.get_public_key_in_der">
+<code class="sig-name descname">get_public_key_in_der</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.get_public_key_in_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.get_public_key_in_der" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return private key in DER format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.get_public_key_in_pem">
+<code class="sig-name descname">get_public_key_in_pem</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.get_public_key_in_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.get_public_key_in_pem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return public key in PEM format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.import_publickey_cert_pem">
+<code class="sig-name descname">import_publickey_cert_pem</code><span class="sig-paren">(</span><em class="sig-param">cert_pemstring</em>, <em class="sig-param">privkey_pemstring=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.import_publickey_cert_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.import_publickey_cert_pem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify and import X509 public key certificate in pem format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.mk_keyobj_from_private_key">
+<code class="sig-name descname">mk_keyobj_from_private_key</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.mk_keyobj_from_private_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.mk_keyobj_from_private_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a keypair object from the binary data of private key</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.mk_keyobj_from_private_key_der">
+<code class="sig-name descname">mk_keyobj_from_private_key_der</code><span class="sig-paren">(</span><em class="sig-param">derdat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.mk_keyobj_from_private_key_der"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.mk_keyobj_from_private_key_der" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a keypair object from the private key in DER format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.mk_keyobj_from_private_key_pem">
+<code class="sig-name descname">mk_keyobj_from_private_key_pem</code><span class="sig-paren">(</span><em class="sig-param">pemdat_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.mk_keyobj_from_private_key_pem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.mk_keyobj_from_private_key_pem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a keypair object from the private key in PEM format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.sign">
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">digest</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign to the given value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>digest</strong> (<em>bytes</em>) – given value</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>signature</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.to_binary">
+<code class="sig-name descname">to_binary</code><span class="sig-paren">(</span><em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.to_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.to_binary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bbclib.compat.bbclib.KeyPairFast.verify">
+<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param">digest</em>, <em class="sig-param">sig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyPairFast.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyPairFast.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify the digest and the signature using the rivate key in this object</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="bbclib.compat.bbclib.KeyType">
 <em class="property">class </em><code class="sig-prename descclassname">bbclib.compat.bbclib.</code><code class="sig-name descname">KeyType</code><a class="reference internal" href="_modules/bbclib/compat/bbclib.html#KeyType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.compat.bbclib.KeyType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>

@@ -1,7 +1,13 @@
 Change log
 ======
 
+## v1.5.3
+* implement python cryptography module based KeyPair class (KeyPairPy)
+* py-bbclib module works without libbbcsig library (fallback mode)
+  - building libbbcsig becomes optional, so pip installation speed becomes quite faster.
+
 ## v1.5.2
+
 * add assertion in BBcRelation and BBcEvent
 
 ## v1.5.1
