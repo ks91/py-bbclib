@@ -1,7 +1,10 @@
 Change log
 ======
 
-## v1.5.4
+## v1.5.5
+* bug fix on reading PEM key file
+
+## v1.5.4  (invalidated and removed from PyPI)
 * bug fix
 
 ## v1.5.3

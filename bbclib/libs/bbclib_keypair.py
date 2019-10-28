@@ -127,22 +127,24 @@ class KeyPairPy:
         """Make a keypair object from the private key in DER format"""
         self.private_key_obj = serialization.load_der_private_key(derdat, password=None, backend=default_backend())
         self._get_naive_private_key_bytes()
-        self.curvetype = self.private_key
         self.public_key_obj = self.private_key_obj.public_key()
         self._get_naive_public_key_bytes()
 
     def mk_keyobj_from_private_key_pem(self, pemdat_string):
         """Make a keypair object from the private key in PEM format"""
+        if isinstance(pemdat_string, str):
+            pemdat_string = pemdat_string.encode()
         self.private_key_obj = serialization.load_pem_private_key(pemdat_string, password=None, backend=default_backend())
         self._get_naive_private_key_bytes()
-        self.curvetype = self.private_key
         self.public_key_obj = self.private_key_obj.public_key()
         self._get_naive_public_key_bytes()
 
     def import_publickey_cert_pem(self, cert_pemstring, privkey_pemstring=None):
         """Verify and import X509 public key certificate in pem format"""
         ## TODO: This method is not tested. It may have bugs.
-        cert = x509.load_pem_x509_certificate(cert_pemstring.encode('utf-8'), default_backend())
+        if isinstance(cert_pemstring, str):
+            cert_pemstring = cert_pemstring.encode('utf-8')
+        cert = x509.load_pem_x509_certificate(cert_pemstring, default_backend())
         fingerprint = cert.fingerprint(hashes.SHA256())
 
         if privkey_pemstring is not None:

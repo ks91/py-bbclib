@@ -27,6 +27,7 @@ from bbclib import id_length_conf
 class BBcCrossRef:
     """CrossRef part in a transaction"""
     def __init__(self, domain_id=None, transaction_id=None, unpack=None):
+        self.idlen_conf = id_length_conf.copy()
         self.domain_id = domain_id
         self.transaction_id = transaction_id
         if unpack is not None:
@@ -45,7 +46,7 @@ class BBcCrossRef:
             bytes: packed binary data
         """
         dat = bytearray(bbclib_utils.to_bigint(self.domain_id))
-        dat.extend(bbclib_utils.to_bigint(self.transaction_id, id_length_conf["transaction_id"]))
+        dat.extend(bbclib_utils.to_bigint(self.transaction_id, self.idlen_conf["transaction_id"]))
         return bytes(dat)
 
     def unpack(self, data):
@@ -60,6 +61,7 @@ class BBcCrossRef:
         try:
             ptr, self.domain_id = bbclib_utils.get_bigint(ptr, data)
             ptr, self.transaction_id = bbclib_utils.get_bigint(ptr, data)
+            self.idlen_conf["transaction_id"] = len(self.transaction_id)
         except:
             return False
         return True
