@@ -50,7 +50,7 @@ def make_transactions(id_len_conf={}, idlen=None):
         txdata_deserialized[i] = txobj
 
 
-class TestBBcLib(object):
+class TestBBcLibNoPubKey(object):
 
     def test_01_transaction_len_32(self):
         print("\n-----", sys._getframe().f_code.co_name, "-----")

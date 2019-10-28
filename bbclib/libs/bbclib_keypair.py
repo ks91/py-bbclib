@@ -176,7 +176,7 @@ class KeyPairPy:
         """Return private key in DER format"""
         serialized_private = self.private_key_obj.private_bytes(
             encoding=serialization.Encoding.DER,
-            format=serialization.PrivateFormat.PKCS8,
+            format=serialization.PrivateFormat.TraditionalOpenSSL,
             encryption_algorithm=serialization.NoEncryption()
         )
         return serialized_private
@@ -193,7 +193,7 @@ class KeyPairPy:
         """Return private key in PEM format"""
         serialized_private = self.private_key_obj.private_bytes(
             encoding=serialization.Encoding.PEM,
-            format=serialization.PrivateFormat.PKCS8,
+            format=serialization.PrivateFormat.TraditionalOpenSSL,
             encryption_algorithm=serialization.NoEncryption()
         )
         return serialized_private

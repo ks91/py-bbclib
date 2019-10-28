@@ -24,7 +24,6 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 
 from bbclib.libs import bbclib_utils
-import bbclib
 from bbclib import id_length_conf
 
 
@@ -32,8 +31,14 @@ class BBcAssetHash:
     """AssetHash part in a transaction
     """
     def __init__(self, asset_ids=None, id_length=None):
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         self.asset_ids = []
         if asset_ids is not None:
             self.add(asset_ids=asset_ids)
@@ -49,7 +54,7 @@ class BBcAssetHash:
         """Add parts in this object"""
         if asset_ids is not None and isinstance(asset_ids, list):
             for h in asset_ids:
-                self.asset_ids.append(h[:id_length_conf["asset_id"]])
+                self.asset_ids.append(h[:self.idlen_conf["asset_id"]])
 
     def digest(self):
         """Return digest
@@ -70,7 +75,7 @@ class BBcAssetHash:
         dat = bytearray()
         dat.extend(bbclib_utils.to_2byte(len(self.asset_ids)))
         for h in self.asset_ids:
-            dat.extend(bbclib_utils.to_bigint(h, size=id_length_conf["asset_id"]))
+            dat.extend(bbclib_utils.to_bigint(h, size=self.idlen_conf["asset_id"]))
         return bytes(dat)
 
     def unpack(self, data):
@@ -87,7 +92,7 @@ class BBcAssetHash:
             for i in range(num_ids):
                 ptr, asset_id = bbclib_utils.get_bigint(ptr, data)
                 self.asset_ids.append(asset_id)
-                id_length_conf["asset_id"] = len(asset_id)
+                self.idlen_conf["asset_id"] = len(asset_id)
         except:
             traceback.print_exc()
             return False

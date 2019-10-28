@@ -25,7 +25,6 @@ from bbclib.libs.bbclib_pointer import BBcPointer
 from bbclib.libs.bbclib_asset import BBcAsset
 from bbclib.libs.bbclib_asset_raw import BBcAssetRaw
 from bbclib.libs.bbclib_asset_hash import BBcAssetHash
-import bbclib
 from bbclib import id_length_conf
 
 
@@ -33,10 +32,16 @@ class BBcRelation:
     """Relation part in a transaction"""
     def __init__(self, asset_group_id=None, id_length=None, version=1):
         self.version = version
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
+            self.asset_group_id = asset_group_id[:self.idlen_conf["asset_group_id"]]
         else:
             self.asset_group_id = None
         self.pointers = list()
@@ -62,7 +67,7 @@ class BBcRelation:
     def add(self, asset_group_id=None, asset=None, asset_raw=None, asset_hash=None, pointer=None):
         """Add parts"""
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
+            self.asset_group_id = asset_group_id[:self.idlen_conf["asset_group_id"]]
         if pointer is not None:
             if isinstance(pointer, list):
                 self.pointers.extend(pointer)
@@ -84,7 +89,7 @@ class BBcRelation:
         """
         if self.asset_group_id is None:
             raise Exception("need asset_group_id in BBcRelation")
-        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=id_length_conf["asset_group_id"]))
+        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=self.idlen_conf["asset_group_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.pointers)))
         for i in range(len(self.pointers)):
             pt = self.pointers[i].pack()
@@ -125,7 +130,7 @@ class BBcRelation:
         data_size = len(data)
         try:
             ptr, self.asset_group_id = bbclib_utils.get_bigint(ptr, data)
-            id_length_conf["asset_group_id"]= len(self.asset_group_id)
+            self.idlen_conf["asset_group_id"]= len(self.asset_group_id)
             ptr, pt_num = bbclib_utils.get_n_byte_int(ptr, 2, data)
             self.pointers = list()
             for i in range(pt_num):

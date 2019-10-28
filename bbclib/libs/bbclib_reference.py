@@ -21,17 +21,22 @@ import traceback
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 from bbclib import id_length_conf
-import bbclib
 from bbclib.libs import bbclib_utils
 
 
 class BBcReference:
     """Reference part in a transaction"""
     def __init__(self, asset_group_id, transaction, ref_transaction=None, event_index_in_ref=0, id_length=None):
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
+            self.asset_group_id = asset_group_id[:self.idlen_conf["asset_group_id"]]
         else:
             self.asset_group_id = None
         self.transaction_id = None
@@ -107,8 +112,8 @@ class BBcReference:
         Returns:
             bytes: packed binary data
         """
-        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=id_length_conf["asset_group_id"]))
-        dat.extend(bbclib_utils.to_bigint(self.transaction_id, size=id_length_conf["transaction_id"]))
+        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=self.idlen_conf["asset_group_id"]))
+        dat.extend(bbclib_utils.to_bigint(self.transaction_id, size=self.idlen_conf["transaction_id"]))
         dat.extend(bbclib_utils.to_2byte(self.event_index_in_ref))
         dat.extend(bbclib_utils.to_2byte(len(self.sig_indices)))
         for i in range(len(self.sig_indices)):
@@ -127,7 +132,9 @@ class BBcReference:
         data_size = len(data)
         try:
             ptr, self.asset_group_id = bbclib_utils.get_bigint(ptr, data)
+            self.idlen_conf["asset_group_id"] = len(self.asset_group_id)
             ptr, self.transaction_id = bbclib_utils.get_bigint(ptr, data)
+            self.idlen_conf["transaction_id"] = len(self.transaction_id)
             ptr, self.event_index_in_ref = bbclib_utils.get_n_byte_int(ptr, 2, data)
             ptr, signum = bbclib_utils.get_n_byte_int(ptr, 2, data)
             self.sig_indices = []

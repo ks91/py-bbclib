@@ -22,17 +22,22 @@ sys.path.append(os.path.join(current_dir, "../.."))
 
 from bbclib.libs import bbclib_utils
 from bbclib.libs.bbclib_asset import BBcAsset
-import bbclib
 from bbclib import id_length_conf
 
 
 class BBcEvent:
     """Event part in a transaction"""
     def __init__(self, asset_group_id=None, id_length=None):
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
+            self.asset_group_id = asset_group_id[:self.idlen_conf["asset_group_id"]]
         else:
             self.asset_group_id = None
         self.reference_indices = []
@@ -66,17 +71,17 @@ class BBcEvent:
             option_approver_num_numerator=0, option_approver_num_denominator=0, option_approver=None, asset=None):
         """Add parts"""
         if asset_group_id is not None:
-            self.asset_group_id = asset_group_id[:id_length_conf["asset_group_id"]]
+            self.asset_group_id = asset_group_id[:self.idlen_conf["asset_group_id"]]
         if reference_index is not None:
             self.reference_indices.append(reference_index)
         if mandatory_approver is not None:
-            self.mandatory_approvers.append(mandatory_approver[:id_length_conf["user_id"]])
+            self.mandatory_approvers.append(mandatory_approver[:self.idlen_conf["user_id"]])
         if option_approver_num_numerator > 0:
             self.option_approver_num_numerator = option_approver_num_numerator
         if option_approver_num_denominator > 0:
             self.option_approver_num_denominator = option_approver_num_denominator
         if option_approver is not None:
-            self.option_approvers.append(option_approver[:id_length_conf["user_id"]])
+            self.option_approvers.append(option_approver[:self.idlen_conf["user_id"]])
         if asset is not None:
             self.asset = asset
         return True
@@ -89,17 +94,17 @@ class BBcEvent:
         """
         if self.asset_group_id is None:
             raise Exception("need asset_group_id in BBcEvent")
-        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=id_length_conf["asset_group_id"]))
+        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=self.idlen_conf["asset_group_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.reference_indices)))
         for i in range(len(self.reference_indices)):
             dat.extend(bbclib_utils.to_2byte(self.reference_indices[i]))
         dat.extend(bbclib_utils.to_2byte(len(self.mandatory_approvers)))
         for i in range(len(self.mandatory_approvers)):
-            dat.extend(bbclib_utils.to_bigint(self.mandatory_approvers[i], size=id_length_conf["user_id"]))
+            dat.extend(bbclib_utils.to_bigint(self.mandatory_approvers[i], size=self.idlen_conf["user_id"]))
         dat.extend(bbclib_utils.to_2byte(self.option_approver_num_numerator))
         dat.extend(bbclib_utils.to_2byte(self.option_approver_num_denominator))
         for i in range(self.option_approver_num_denominator):
-            dat.extend(bbclib_utils.to_bigint(self.option_approvers[i], size=id_length_conf["user_id"]))
+            dat.extend(bbclib_utils.to_bigint(self.option_approvers[i], size=self.idlen_conf["user_id"]))
         ast = self.asset.pack()
         dat.extend(bbclib_utils.to_4byte(len(ast)))
         dat.extend(ast)
@@ -119,7 +124,7 @@ class BBcEvent:
         data_size = len(data)
         try:
             ptr, self.asset_group_id = bbclib_utils.get_bigint(ptr, data)
-            id_length_conf["asset_group_id"] = len(self.asset_group_id)
+            self.idlen_conf["asset_group_id"] = len(self.asset_group_id)
             ptr, ref_num = bbclib_utils.get_n_byte_int(ptr, 2, data)
             self.reference_indices = []
             for i in range(ref_num):
@@ -131,7 +136,7 @@ class BBcEvent:
             self.mandatory_approvers = []
             for i in range(appr_num):
                 ptr, appr = bbclib_utils.get_bigint(ptr, data)
-                id_length_conf["user_id"] = len(appr)
+                self.idlen_conf["user_id"] = len(appr)
                 self.mandatory_approvers.append(appr)
                 if ptr >= data_size:
                     return False
@@ -140,7 +145,7 @@ class BBcEvent:
             self.option_approvers = []
             for i in range(self.option_approver_num_denominator):
                 ptr, appr = bbclib_utils.get_bigint(ptr, data)
-                id_length_conf["user_id"] = len(appr)
+                self.idlen_conf["user_id"] = len(appr)
                 self.option_approvers.append(appr)
                 if ptr >= data_size:
                     return False

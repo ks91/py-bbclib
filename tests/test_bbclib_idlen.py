@@ -49,9 +49,10 @@ def make_transactions(id_len_conf={}, idlen=None):
     for i in range(0, 20):
         txobj, fmt_type = bbclib.deserialize(txdata[i])
         txdata_deserialized[i] = txobj
+        print(txobj.digest().hex())
 
 
-class TestBBcLib(object):
+class TestBBcLibIdlen(object):
 
     def test_01_transaction_len_32(self):
         print("\n-----", sys._getframe().f_code.co_name, "-----")
@@ -76,6 +77,7 @@ class TestBBcLib(object):
         for i in range(0, 20):
             print("txdata_len: %d" % len(txdata[i]))
             digest = txdata_deserialized[i].digest()
+            print(digest.hex())
             #print("transaction_id_len: %d" % len(txdata_deserialized[i].transaction_id))
             #print("asset_group_id_len: %d" % len(txdata_deserialized[i].relations[0].asset_group_id))
             #print("user_id_len: %d" % len(txdata_deserialized[i].relations[0].asset.user_id))

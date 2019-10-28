@@ -24,7 +24,6 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 
 from bbclib.libs import bbclib_utils
-import bbclib
 from bbclib import id_length_conf
 
 
@@ -34,8 +33,14 @@ class BBcAssetRaw:
     In this object, asset_id should be given externally, meaning that this object does not care about how to calculate the digest.
     """
     def __init__(self, asset_id=None, asset_body=None, id_length=None):
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         self.asset_id = None
         self.asset_body_size = 0
         self.asset_body = None
@@ -51,7 +56,7 @@ class BBcAssetRaw:
     def add(self, asset_id=None, asset_body=None):
         """Add parts in this object"""
         if asset_id is not None:
-            self.asset_id = asset_id[:id_length_conf["asset_id"]]
+            self.asset_id = asset_id[:self.idlen_conf["asset_id"]]
         if asset_body is not None:
             self.asset_body = asset_body
             if isinstance(asset_body, str):
@@ -76,7 +81,7 @@ class BBcAssetRaw:
             bytes: packed binary data
         """
         dat = bytearray()
-        dat.extend(bbclib_utils.to_bigint(self.asset_id, size=id_length_conf["asset_id"]))
+        dat.extend(bbclib_utils.to_bigint(self.asset_id, size=self.idlen_conf["asset_id"]))
         dat.extend(bbclib_utils.to_2byte(self.asset_body_size))
         if self.asset_body_size > 0:
             dat.extend(self.asset_body)
@@ -93,7 +98,7 @@ class BBcAssetRaw:
         ptr = 0
         try:
             ptr, self.asset_id = bbclib_utils.get_bigint(ptr, data)
-            id_length_conf["asset_id"] = len(self.asset_id)
+            self.idlen_conf["asset_id"] = len(self.asset_id)
             ptr, self.asset_body_size = bbclib_utils.get_n_byte_int(ptr, 2, data)
             if self.asset_body_size > 0:
                 ptr, self.asset_body = bbclib_utils.get_n_bytes(ptr, self.asset_body_size, data)

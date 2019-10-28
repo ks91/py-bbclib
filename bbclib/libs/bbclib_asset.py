@@ -32,15 +32,21 @@ from bbclib import id_length_conf
 class BBcAsset:
     """Asset part in a transaction"""
     def __init__(self, user_id=None, asset_file=None, asset_body=None, id_length=None, version=2):
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         self.version = version
         self.asset_id = None
         if user_id is not None:
-            self.user_id = user_id[:id_length_conf["user_id"]]
+            self.user_id = user_id[:self.idlen_conf["user_id"]]
         else:
             self.user_id = None
-        self.nonce = bbclib_utils.get_random_value(id_length_conf["nonce"])
+        self.nonce = bbclib_utils.get_random_value(self.idlen_conf["nonce"])
         self.asset_file_size = 0
         self.asset_file = None
         self.asset_file_digest = None
@@ -62,7 +68,7 @@ class BBcAsset:
 
     def add(self, user_id=None, asset_file=None, asset_body=None):
         """Add parts in this object"""
-        self.user_id = user_id[:id_length_conf["user_id"]]
+        self.user_id = user_id[:self.idlen_conf["user_id"]]
         if asset_file is not None:
             self.asset_file = asset_file
             self.asset_file_size = len(asset_file)
@@ -83,7 +89,7 @@ class BBcAsset:
             bytes: asset_id (or digest)
         """
         target = self.pack(for_digest_calculation=True)
-        self.asset_id = hashlib.sha256(target).digest()[:id_length_conf["asset_id"]]
+        self.asset_id = hashlib.sha256(target).digest()[:self.idlen_conf["asset_id"]]
         return self.asset_id
 
     def get_asset_file(self):
@@ -116,8 +122,8 @@ class BBcAsset:
         """
         dat = bytearray()
         if not for_digest_calculation:
-            dat.extend(bbclib_utils.to_bigint(self.asset_id, size=id_length_conf["asset_id"]))
-        dat.extend(bbclib_utils.to_bigint(self.user_id, size=id_length_conf["user_id"]))
+            dat.extend(bbclib_utils.to_bigint(self.asset_id, size=self.idlen_conf["asset_id"]))
+        dat.extend(bbclib_utils.to_bigint(self.user_id, size=self.idlen_conf["user_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.nonce)))
         dat.extend(self.nonce)
         dat.extend(bbclib_utils.to_4byte(self.asset_file_size))
@@ -146,11 +152,11 @@ class BBcAsset:
         ptr = 0
         try:
             ptr, self.asset_id = bbclib_utils.get_bigint(ptr, data)
-            id_length_conf["asset_id"] = len(self.asset_id)
+            self.idlen_conf["asset_id"] = len(self.asset_id)
             ptr, self.user_id = bbclib_utils.get_bigint(ptr, data)
-            id_length_conf["user_id"] = len(self.user_id)
+            self.idlen_conf["user_id"] = len(self.user_id)
             ptr, noncelen = bbclib_utils.get_n_byte_int(ptr, 2, data)
-            id_length_conf["nonce"] = noncelen
+            self.idlen_conf["nonce"] = noncelen
             ptr, self.nonce = bbclib_utils.get_n_bytes(ptr, noncelen, data)
             ptr, self.asset_file_size = bbclib_utils.get_n_byte_int(ptr, 4, data)
             if self.asset_file_size > 0:

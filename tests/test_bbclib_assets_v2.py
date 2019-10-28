@@ -27,7 +27,7 @@ print("private_key(pem):\n", keypair1.get_private_key_in_pem())
 print("public_key:", binascii.b2a_hex(keypair1.public_key))
 
 
-class TestBBcLib(object):
+class TestBBcLibAssetsV2(object):
 
     def test_00_keypair(self):
         print("\n-----", sys._getframe().f_code.co_name, "-----")
