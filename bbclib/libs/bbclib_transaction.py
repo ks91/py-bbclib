@@ -47,8 +47,14 @@ class BBcTransaction:
     WITH_WIRE = False  # for backward compatibility
 
     def __init__(self, version=1, unpack=None, id_length=None):
+        self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
-            bbclib.configure_id_length_all(id_length)
+            if isinstance(id_length, int):
+                for k in self.idlen_conf.keys():
+                    self.idlen_conf[k] = id_length
+            elif isinstance(id_length, dict):
+                for k in id_length.keys():
+                    self.idlen_conf[k] = id_length[k]
         self.version = version
         self.timestamp = int(time.time() * 1000)  # milliseconds
         self.events = []
@@ -71,7 +77,7 @@ class BBcTransaction:
         ret += "version: %d\n" % self.version
         ret += "timestamp: %d\n" % self.timestamp
         if self.version != 0:
-            ret += "id_length of transaction_id: %d\n" % id_length_conf["transaction_id"]
+            ret += "id_length of transaction_id: %d\n" % self.idlen_conf["transaction_id"]
         ret += "Event[]: %d\n" % len(self.events)
         for i, evt in enumerate(self.events):
             ret += " [%d]\n" % i
@@ -174,7 +180,7 @@ class BBcTransaction:
         """
         target = self.pack(for_id=True)
         d = hashlib.sha256(target).digest()
-        self.transaction_id = d[:id_length_conf["transaction_id"]]
+        self.transaction_id = d[:self.idlen_conf["transaction_id"]]
         return d
 
     def pack(self, for_id=False):
@@ -182,7 +188,7 @@ class BBcTransaction:
         dat = bytearray(bbclib_utils.to_4byte(self.version))
         dat.extend(bbclib_utils.to_8byte(self.timestamp))
         if self.version != 0:
-            dat.extend(bbclib_utils.to_2byte(id_length_conf["transaction_id"]))
+            dat.extend(bbclib_utils.to_2byte(self.idlen_conf["transaction_id"]))
         dat.extend(bbclib_utils.to_2byte(len(self.events)))
         for i in range(len(self.events)):
             evt = self.events[i].pack()
@@ -247,7 +253,7 @@ class BBcTransaction:
             ptr, self.timestamp = bbclib_utils.get_n_byte_int(ptr, 8, data)
             if self.version != 0:
                 ptr, id_length = bbclib_utils.get_n_byte_int(ptr, 2, data)
-                id_length_conf["transaction_id"] = id_length
+                self.idlen_conf["transaction_id"] = id_length
             ptr, evt_num = bbclib_utils.get_n_byte_int(ptr, 2, data)
             self.events = []
             for i in range(evt_num):

@@ -12,7 +12,7 @@ domain_id = bbclib.get_new_id("testdomain")
 asset_group_id = bbclib.get_new_id("asset_group_1")
 
 
-class TestBBcLib(object):
+class TestBBcLibPackUnpack(object):
 
     def test_00_user_setup(self):
         print("\n-----", sys._getframe().f_code.co_name, "-----")
