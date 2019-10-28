@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.5.4
+* bug fix
+
 ## v1.5.3
 * implement python cryptography module based KeyPair class (KeyPairPy)
 * py-bbclib module works without libbbcsig library (fallback mode)
