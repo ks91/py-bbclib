@@ -35,10 +35,10 @@ error_code = -1
 error_text = ""
 
 
+import bbclib.libs.bbclib_keypair as bbclib_keypair
 import bbclib.libs.bbclib_utils as bbclib_utils
 import bbclib.libs.bbclib_transaction as bbclib_transaction
 import bbclib.libs.bbclib_signature as bbclib_signature
-import bbclib.libs.bbclib_keypair as bbclib_keypair
 import bbclib.libs.bbclib_asset as bbclib_asset
 import bbclib.libs.bbclib_asset_raw as bbclib_asset_raw
 import bbclib.libs.bbclib_asset_hash as bbclib_asset_hash

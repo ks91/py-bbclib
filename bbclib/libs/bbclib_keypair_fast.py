@@ -67,10 +67,10 @@ class KeyPairFast:
         libbbcsig.generate_keypair(self.curvetype, self.key_compression, byref(self.public_key_len), self.public_key,
                                    byref(self.private_key_len), self.private_key)
 
-    def mk_keyobj_from_private_key(self):
+    def mk_keyobj_from_private_key(self, privkey):
         """Make a keypair object from the binary data of private key"""
-        if self.private_key is None:
-            return
+        self.private_key = privkey
+        self.private_key_len = len(privkey)
         libbbcsig.get_public_key_uncompressed(self.curvetype, self.private_key_len, self.private_key,
                                               byref(self.public_key_len), self.public_key)
 
@@ -89,19 +89,25 @@ class KeyPairFast:
     def mk_keyobj_from_private_key_pem(self, pemdat_string):
         """Make a keypair object from the private key in PEM format"""
         curvetype = c_int(0)
+        if isinstance(pemdat_string, str):
+            pemdat_string = pemdat_string.encode()
         libbbcsig.convert_from_pem_with_curvetype(
-                create_string_buffer(pemdat_string.encode()), self.key_compression, byref(curvetype),
+                create_string_buffer(pemdat_string), self.key_compression, byref(curvetype),
                 byref(self.public_key_len), self.public_key,
                 byref(self.private_key_len), self.private_key)
         self.curvetype = curvetype.value
 
     def import_publickey_cert_pem(self, cert_pemstring, privkey_pemstring=None):
         """Verify and import X509 public key certificate in pem format"""
+        if isinstance(cert_pemstring, str):
+            cert_pemstring = cert_pemstring.encode()
+        if isinstance(privkey_pemstring, str):
+            privkey_pemstring = privkey_pemstring.encode()
         if privkey_pemstring is not None:
-            ret = libbbcsig.verify_x509(create_string_buffer(cert_pemstring.encode()),
-                                        create_string_buffer(privkey_pemstring.encode()))
+            ret = libbbcsig.verify_x509(create_string_buffer(cert_pemstring),
+                                        create_string_buffer(privkey_pemstring))
         else:
-            ret = libbbcsig.verify_x509(create_string_buffer(cert_pemstring.encode()), None)
+            ret = libbbcsig.verify_x509(create_string_buffer(cert_pemstring), None)
         if ret != 1:
             return False
 
@@ -109,7 +115,7 @@ class KeyPairFast:
             self.mk_keyobj_from_private_key_pem(privkey_pemstring)
         else:
             curvetype = c_int(0)
-            ret = libbbcsig.read_x509_with_curvetype(create_string_buffer(cert_pemstring.encode()), self.key_compression, byref(curvetype), byref(self.public_key_len), self.public_key)
+            ret = libbbcsig.read_x509_with_curvetype(create_string_buffer(cert_pemstring), self.key_compression, byref(curvetype), byref(self.public_key_len), self.public_key)
             self.curvetype = curvetype.value
             if ret != 1:
                 return False

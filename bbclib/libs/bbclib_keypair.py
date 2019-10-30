@@ -18,14 +18,10 @@ import sys
 import os
 import platform
 
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec, utils
-from cryptography import x509
-import cryptography
-
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
+
+KeyPair = None
 
 
 def _convert_binary_to_bigint(bindat):
@@ -235,7 +231,6 @@ class KeyPairPy:
 
 
 BACKEND_KP = KeyPairPy()
-BACKEND_KP.generate()
 
 try:
     directory, filename = os.path.split(os.path.realpath(__file__))
@@ -250,6 +245,12 @@ try:
             raise Exception("DLL not exists")
     from bbclib.libs import bbclib_keypair_fast
     KeyPair = bbclib_keypair_fast.KeyPairFast
-except:
-    KeyPair = KeyPairPy
 
+except:
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import ec, utils
+    from cryptography import x509
+    import cryptography
+    KeyPair = KeyPairPy
+    BACKEND_KP.generate()
