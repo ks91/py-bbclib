@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.5.6
+* modify dynamic link library load procedure for AWS lambda
+
 ## v1.5.5
 * bug fix on reading PEM key file
 
