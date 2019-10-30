@@ -2,10 +2,8 @@ import sys
 sys.path.append('.')
 sys.path.append('..')
 
-import os
+
 import bbclib
-import hashlib
-import binascii
 
 
 class TestKey(object):
@@ -32,10 +30,16 @@ class TestKey(object):
         privkey3 = keypair3.private_key
         pubkey3 = keypair3.public_key
 
-        assert privkey1 == privkey2
-        assert privkey2 == privkey3
-        assert pubkey1 == pubkey2
-        assert pubkey2 == pubkey3
+        if isinstance(privkey1, bytes):
+            assert privkey1 == privkey2
+            assert privkey2 == privkey3
+            assert pubkey1 == pubkey2
+            assert pubkey2 == pubkey3
+        else:
+            assert bytes(privkey1) == bytes(privkey2)
+            assert bytes(privkey2) == bytes(privkey3)
+            assert bytes(pubkey1) == bytes(pubkey2)
+            assert bytes(pubkey2) == bytes(pubkey3)
 
     def test_02_pem(self):
         print("\n-----", sys._getframe().f_code.co_name, "-----")
@@ -44,9 +48,11 @@ class TestKey(object):
         keypair1.mk_keyobj_from_private_key_pem(pem1)
         privkey1 = keypair1.private_key
         pem1_1 = keypair1.get_private_key_in_pem()
-        assert pem1 == pem1_1.decode().rstrip()
+        pem1_1 = pem1_1.decode().rstrip()
+        assert pem1 == pem1_1
 
         keypair2 = bbclib.KeyPair()
         keypair2.mk_keyobj_from_private_key(privkey1)
         pem2 = keypair2.get_private_key_in_pem()
-        assert pem1 == pem2.decode().rstrip()
+        pem2 = pem2.decode().rstrip()
+        assert pem1 == pem2
