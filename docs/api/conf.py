@@ -25,9 +25,9 @@ copyright = '2019, beyond-blockchain.org'
 author = 'beyond-blockchain.org'
 
 # The short X.Y version
-version = '1.5'
+version = '1.6'
 # The full version, including alpha/beta/rc tags
-release = '1.5'
+release = '1.6'
 
 
 # -- General configuration ---------------------------------------------------

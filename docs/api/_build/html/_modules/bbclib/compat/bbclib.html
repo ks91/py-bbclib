@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.compat.bbclib &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.compat.bbclib &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -1622,7 +1622,7 @@
                 <span class="k">return</span>
             <span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_sig_ids</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">signature</span><span class="o">.</span><span class="n">format_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">format_type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">add_signature</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">add_signature_object</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BBcReference.get_referred_transaction"><a class="viewcode-back" href="../../../bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcReference.get_referred_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">get_referred_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return referred transaction in serialized format&quot;&quot;&quot;</span>
@@ -1962,7 +1962,7 @@
 <span class="sd">            signature (bytes): signature</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">signature</span><span class="o">.</span><span class="n">format_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">format_type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">add_signature</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">],</span> <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">add_signature_object</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">id_length</span><span class="p">],</span> <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BBcWitness.serialize"><a class="viewcode-back" href="../../../bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcWitness.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Serialize this object</span>

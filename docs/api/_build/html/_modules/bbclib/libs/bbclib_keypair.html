@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_keypair &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_keypair &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -169,15 +169,14 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
-
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span><span class="p">,</span> <span class="n">serialization</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric</span> <span class="k">import</span> <span class="n">ec</span><span class="p">,</span> <span class="n">utils</span>
-<span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>
-<span class="kn">import</span> <span class="nn">cryptography</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
 <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;../..&quot;</span><span class="p">))</span>
+
+<span class="n">KeyPair</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <span class="k">def</span> <span class="nf">_convert_binary_to_bigint</span><span class="p">(</span><span class="n">bindat</span><span class="p">):</span>
@@ -217,6 +216,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_mk_keyobj_from_public_key</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">public_key_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">public_key</span> <span class="o">=</span> <span class="n">pubkey</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">key_compression</span> <span class="o">=</span> <span class="n">KeyPair</span><span class="o">.</span><span class="n">POINT_CONVERSION_COMPRESSED</span>
 
     <span class="k">def</span> <span class="nf">_get_naive_private_key_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -251,6 +252,17 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span>
 
+<div class="viewcode-block" id="KeyPairPy.get_key_id"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_keypair.html#bbclib.libs.bbclib_keypair.KeyPairPy.get_key_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_key_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;calculate Base64-encoded KeyID defined in RFC7638&quot;&quot;&quot;</span>
+        <span class="n">jwk_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;crv&quot;</span><span class="p">:</span> <span class="s2">&quot;P-256&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;kty&quot;</span><span class="p">:</span> <span class="s2">&quot;EC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_key_obj</span><span class="o">.</span><span class="n">public_numbers</span><span class="p">()</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_key_obj</span><span class="o">.</span><span class="n">public_numbers</span><span class="p">()</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">jwk</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">jwk_data</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">jwk</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="KeyPairPy.generate"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_keypair.html#bbclib.libs.bbclib_keypair.KeyPairPy.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Generate a new key pair&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curvetype</span> <span class="o">==</span> <span class="n">KeyType</span><span class="o">.</span><span class="n">ECDSA_P256v1</span><span class="p">:</span>
@@ -279,22 +291,24 @@
         <span class="sd">&quot;&quot;&quot;Make a keypair object from the private key in DER format&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span> <span class="o">=</span> <span class="n">serialization</span><span class="o">.</span><span class="n">load_der_private_key</span><span class="p">(</span><span class="n">derdat</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_get_naive_private_key_bytes</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">curvetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">public_key_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_get_naive_public_key_bytes</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="KeyPairPy.mk_keyobj_from_private_key_pem"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_keypair.html#bbclib.libs.bbclib_keypair.KeyPairPy.mk_keyobj_from_private_key_pem">[docs]</a>    <span class="k">def</span> <span class="nf">mk_keyobj_from_private_key_pem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pemdat_string</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a keypair object from the private key in PEM format&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pemdat_string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">pemdat_string</span> <span class="o">=</span> <span class="n">pemdat_string</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span> <span class="o">=</span> <span class="n">serialization</span><span class="o">.</span><span class="n">load_pem_private_key</span><span class="p">(</span><span class="n">pemdat_string</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_get_naive_private_key_bytes</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">curvetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">public_key_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_get_naive_public_key_bytes</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="KeyPairPy.import_publickey_cert_pem"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_keypair.html#bbclib.libs.bbclib_keypair.KeyPairPy.import_publickey_cert_pem">[docs]</a>    <span class="k">def</span> <span class="nf">import_publickey_cert_pem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_pemstring</span><span class="p">,</span> <span class="n">privkey_pemstring</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Verify and import X509 public key certificate in pem format&quot;&quot;&quot;</span>
         <span class="c1">## TODO: This method is not tested. It may have bugs.</span>
-        <span class="n">cert</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">cert_pemstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">default_backend</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cert_pemstring</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">cert_pemstring</span> <span class="o">=</span> <span class="n">cert_pemstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">cert</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">cert_pemstring</span><span class="p">,</span> <span class="n">default_backend</span><span class="p">())</span>
         <span class="n">fingerprint</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="n">fingerprint</span><span class="p">(</span><span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="n">privkey_pemstring</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -328,7 +342,7 @@
         <span class="sd">&quot;&quot;&quot;Return private key in DER format&quot;&quot;&quot;</span>
         <span class="n">serialized_private</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span><span class="o">.</span><span class="n">private_bytes</span><span class="p">(</span>
             <span class="n">encoding</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">Encoding</span><span class="o">.</span><span class="n">DER</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">PrivateFormat</span><span class="o">.</span><span class="n">PKCS8</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">PrivateFormat</span><span class="o">.</span><span class="n">TraditionalOpenSSL</span><span class="p">,</span>
             <span class="n">encryption_algorithm</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">NoEncryption</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">serialized_private</span></div>
@@ -345,7 +359,7 @@
         <span class="sd">&quot;&quot;&quot;Return private key in PEM format&quot;&quot;&quot;</span>
         <span class="n">serialized_private</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">private_key_obj</span><span class="o">.</span><span class="n">private_bytes</span><span class="p">(</span>
             <span class="n">encoding</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">Encoding</span><span class="o">.</span><span class="n">PEM</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">PrivateFormat</span><span class="o">.</span><span class="n">PKCS8</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">PrivateFormat</span><span class="o">.</span><span class="n">TraditionalOpenSSL</span><span class="p">,</span>
             <span class="n">encryption_algorithm</span><span class="o">=</span><span class="n">serialization</span><span class="o">.</span><span class="n">NoEncryption</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">serialized_private</span></div>
@@ -385,7 +399,6 @@
 
 
 <span class="n">BACKEND_KP</span> <span class="o">=</span> <span class="n">KeyPairPy</span><span class="p">()</span>
-<span class="n">BACKEND_KP</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">directory</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
@@ -400,9 +413,15 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;DLL not exists&quot;</span><span class="p">)</span>
     <span class="kn">from</span> <span class="nn">bbclib.libs</span> <span class="k">import</span> <span class="n">bbclib_keypair_fast</span>
     <span class="n">KeyPair</span> <span class="o">=</span> <span class="n">bbclib_keypair_fast</span><span class="o">.</span><span class="n">KeyPairFast</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">KeyPair</span> <span class="o">=</span> <span class="n">KeyPairPy</span>
 
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
+    <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span><span class="p">,</span> <span class="n">serialization</span>
+    <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric</span> <span class="k">import</span> <span class="n">ec</span><span class="p">,</span> <span class="n">utils</span>
+    <span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>
+    <span class="kn">import</span> <span class="nn">cryptography</span>
+    <span class="n">KeyPair</span> <span class="o">=</span> <span class="n">KeyPairPy</span>
+    <span class="n">BACKEND_KP</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 </pre></div>
 
            </div>

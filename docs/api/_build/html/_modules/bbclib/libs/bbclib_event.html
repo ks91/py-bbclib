@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_event &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_event &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -172,19 +172,25 @@
 <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;../..&quot;</span><span class="p">))</span>
 
-<span class="kn">from</span> <span class="nn">bbclib.libs</span> <span class="k">import</span> <span class="n">bbclib_utils</span>
+<span class="kn">from</span> <span class="nn">bbclib.libs</span> <span class="k">import</span> <span class="n">bbclib_binary</span>
 <span class="kn">from</span> <span class="nn">bbclib.libs.bbclib_asset</span> <span class="k">import</span> <span class="n">BBcAsset</span>
-<span class="kn">import</span> <span class="nn">bbclib</span>
 <span class="kn">from</span> <span class="nn">bbclib</span> <span class="k">import</span> <span class="n">id_length_conf</span>
 
 
 <div class="viewcode-block" id="BBcEvent"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent">[docs]</a><span class="k">class</span> <span class="nc">BBcEvent</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Event part in a transaction&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_group_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_group_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span> <span class="o">=</span> <span class="n">id_length_conf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">id_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">bbclib</span><span class="o">.</span><span class="n">configure_id_length_all</span><span class="p">(</span><span class="n">id_length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">id_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_length</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">id_length</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">id_length</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_length</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">asset_group_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">asset_group_id</span><span class="p">[:</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">asset_group_id</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span> <span class="o">=</span> <span class="p">[]</span>
@@ -195,18 +201,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ret</span> <span class="o">=</span>  <span class="s2">&quot;  asset_group_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span>  <span class="s2">&quot;  asset_group_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span><span class="p">)</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  reference_indices: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  mandatory_approvers:</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">:</span>
-                <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;    - </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+                <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;    - </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;    - None</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  option_approvers:</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="p">:</span>
-                <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;    - </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+                <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;    - </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;    - None</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  option_approver_num_numerator: </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span>
@@ -218,20 +224,98 @@
             <span class="n">option_approver_num_numerator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">option_approver_num_denominator</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">option_approver</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">asset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add parts&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">asset_group_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">asset_group_id</span><span class="p">[:</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">asset_group_id</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]]</span>
         <span class="k">if</span> <span class="n">reference_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reference_index</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reference_index</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">reference_index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reference_index</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">mandatory_approver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mandatory_approver</span><span class="p">[:</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mandatory_approver</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]])</span>
         <span class="k">if</span> <span class="n">option_approver_num_numerator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span> <span class="o">=</span> <span class="n">option_approver_num_numerator</span>
         <span class="k">if</span> <span class="n">option_approver_num_denominator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span> <span class="o">=</span> <span class="n">option_approver_num_denominator</span>
         <span class="k">if</span> <span class="n">option_approver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">option_approver</span><span class="p">[:</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">option_approver</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]])</span>
         <span class="k">if</span> <span class="n">asset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="n">asset</span>
         <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BBcEvent.set_asset_group"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.set_asset_group">[docs]</a>    <span class="k">def</span> <span class="nf">set_asset_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_group_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set asset_group_id in the BBcEvent object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            asset_group_id (byte): asset_group_id</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcEvent: this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">asset_group_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">asset_group_id</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BBcEvent.add_reference_index"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.add_reference_index">[docs]</a>    <span class="k">def</span> <span class="nf">add_reference_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add reference_index value in the reference_indices array of BBcEvent object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (int): index of BBcReference object in transaction to refer to</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcEvent: this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BBcEvent.create_asset"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.create_asset">[docs]</a>    <span class="k">def</span> <span class="nf">create_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">asset_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">asset_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create BBcAsset object and set it to self.asset in the BBcEvent object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user_id (byte): user_id to set in BBcAsset object</span>
+<span class="sd">            asset_body (*): asset_body to set in BBcAsset object</span>
+<span class="sd">            asset_file (byte): asset file to set in BBcAsset object</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcEvent: this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="n">BBcAsset</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">asset_file</span><span class="o">=</span><span class="n">asset_file</span><span class="p">,</span> <span class="n">asset_body</span><span class="o">=</span><span class="n">asset_body</span><span class="p">,</span>
+                              <span class="n">id_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BBcEvent.add_mandatory_approver"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.add_mandatory_approver">[docs]</a>    <span class="k">def</span> <span class="nf">add_mandatory_approver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">approver</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add user in the mandatory approver list</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            approver (byte): user_id of the approver</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcEvent: this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">approver</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BBcEvent.add_option_approver"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.add_option_approver">[docs]</a>    <span class="k">def</span> <span class="nf">add_option_approver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">approver</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add user in the option approver list</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            approver (byte): user_id of the approver</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcEvent: this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">approver</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BBcEvent.set_option_parameter"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.set_option_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">set_option_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set option parameters in the BBcEvent object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            numerator (int): necessary number of approvals from the option approver list</span>
+<span class="sd">            denominator (int): number of approver candidates in the option approver list</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            BBcEvent: this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">numerator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span> <span class="o">=</span> <span class="n">numerator</span>
+        <span class="k">if</span> <span class="n">denominator</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span> <span class="o">=</span> <span class="n">denominator</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="BBcEvent.pack"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_event.html#bbclib.libs.bbclib_event.BBcEvent.pack">[docs]</a>    <span class="k">def</span> <span class="nf">pack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Pack this object</span>
@@ -241,19 +325,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;need asset_group_id in BBcEvent&quot;</span><span class="p">)</span>
-        <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]))</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="p">)))</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="p">)):</span>
-            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">)))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">)):</span>
-            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]))</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span><span class="p">))</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span><span class="p">))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span><span class="p">))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span><span class="p">):</span>
-            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]))</span>
+            <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]))</span>
         <span class="n">ast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ast</span><span class="p">)))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ast</span><span class="p">)))</span>
         <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ast</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span></div>
 
@@ -270,34 +354,34 @@
         <span class="n">id_length_userid</span> <span class="o">=</span> <span class="mi">32</span>
         <span class="n">data_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-            <span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span><span class="p">)</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="n">ref_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;asset_group_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asset_group_id</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">ref_num</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ref_num</span><span class="p">):</span>
-                <span class="n">ptr</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">reference_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">data_size</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">False</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="n">appr_num</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">appr_num</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">appr_num</span><span class="p">):</span>
-                <span class="n">ptr</span><span class="p">,</span> <span class="n">appr</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-                <span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">appr</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">appr</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">appr</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mandatory_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">appr</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">data_size</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">False</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_numerator</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_approver_num_denominator</span><span class="p">):</span>
-                <span class="n">ptr</span><span class="p">,</span> <span class="n">appr</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-                <span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">appr</span><span class="p">)</span>
+                <span class="n">ptr</span><span class="p">,</span> <span class="n">appr</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">appr</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">option_approvers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">appr</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">ptr</span> <span class="o">&gt;=</span> <span class="n">data_size</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">False</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="n">astsize</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="n">astdata</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">astsize</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">astsize</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="n">astdata</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">astsize</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">asset</span> <span class="o">=</span> <span class="n">BBcAsset</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">astdata</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>

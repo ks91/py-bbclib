@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_transaction module &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_transaction module &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -198,8 +198,26 @@ limitations under the License.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="bbclib.libs.bbclib_transaction.BBcTransaction.add_event">
+<code class="sig-name descname">add_event</code><span class="sig-paren">(</span><em class="sig-param">asset_group_id</em>, <em class="sig-param">reference_indices=None</em>, <em class="sig-param">mandatory_approvers=None</em>, <em class="sig-param">option_approvers=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.add_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.add_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add BBcEvent object in this transaction (for allowing method chain style coding)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_transaction.BBcTransaction.add_relation">
+<code class="sig-name descname">add_relation</code><span class="sig-paren">(</span><em class="sig-param">asset_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.add_relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.add_relation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add BBcRelation object in this transaction (for allowing method chain style coding)</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="bbclib.libs.bbclib_transaction.BBcTransaction.add_signature">
-<code class="sig-name descname">add_signature</code><span class="sig-paren">(</span><em class="sig-param">user_id=None</em>, <em class="sig-param">signature=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.add_signature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.add_signature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_signature</code><span class="sig-paren">(</span><em class="sig-param">user_id</em>, <em class="sig-param">key_type=None</em>, <em class="sig-param">private_key=None</em>, <em class="sig-param">public_key=None</em>, <em class="sig-param">keypair=None</em>, <em class="sig-param">no_pubkey=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.add_signature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.add_signature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add BBcWitness and BBcSignature objects in this transaction (for allowing method chain style coding)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_transaction.BBcTransaction.add_signature_object">
+<code class="sig-name descname">add_signature_object</code><span class="sig-paren">(</span><em class="sig-param">user_id=None</em>, <em class="sig-param">signature=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.add_signature_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.add_signature_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add signature in the reserved space</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -215,6 +233,24 @@ limitations under the License.</p>
 <dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_transaction.BBcTransaction.add_witness">
+<code class="sig-name descname">add_witness</code><span class="sig-paren">(</span><em class="sig-param">user_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.add_witness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.add_witness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add BBcWitness object in this transaction</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_transaction.BBcTransaction.create_cross_ref">
+<code class="sig-name descname">create_cross_ref</code><span class="sig-paren">(</span><em class="sig-param">transaction_id</em>, <em class="sig-param">domain_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.create_cross_ref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.create_cross_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add BBcCrossRef object in this transaction (for allowing method chain style coding)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_transaction.BBcTransaction.create_reference">
+<code class="sig-name descname">create_reference</code><span class="sig-paren">(</span><em class="sig-param">asset_group_id</em>, <em class="sig-param">ref_transaction=None</em>, <em class="sig-param">event_index_in_ref=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_transaction.html#BBcTransaction.create_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_transaction.BBcTransaction.create_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add BBcReference object in this transaction (for allowing method chain style coding)</p>
 </dd></dl>
 
 <dl class="method">
