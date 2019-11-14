@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_utils module &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_utils module &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -188,8 +188,8 @@ limitations under the License.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="bbclib.libs.bbclib_utils.create_pointer_in_relation">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">create_pointer_in_relation</code><span class="sig-paren">(</span><em class="sig-param">relation</em>, <em class="sig-param">ref_transaction_id=None</em>, <em class="sig-param">ref_asset_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#create_pointer_in_relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.create_pointer_in_relation" title="Permalink to this definition">¶</a></dt>
+<dt id="bbclib.libs.bbclib_utils.add_pointer_in_relation">
+<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">add_pointer_in_relation</code><span class="sig-paren">(</span><em class="sig-param">relation</em>, <em class="sig-param">ref_transaction_id=None</em>, <em class="sig-param">ref_asset_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#add_pointer_in_relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.add_pointer_in_relation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility to add BBcRelation object with BBcPointer in the BBcRelation object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -292,11 +292,6 @@ limitations under the License.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="bbclib.libs.bbclib_utils.bin2str_base64">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">bin2str_base64</code><span class="sig-paren">(</span><em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#bin2str_base64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.bin2str_base64" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="bbclib.libs.bbclib_utils.convert_id_to_string">
 <code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">convert_id_to_string</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">bytelen=32</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#convert_id_to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.convert_id_to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert binary data to hex string</p>
@@ -343,21 +338,6 @@ limitations under the License.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="bbclib.libs.bbclib_utils.get_bigint">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">get_bigint</code><span class="sig-paren">(</span><em class="sig-param">ptr</em>, <em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#get_bigint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.get_bigint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.get_n_byte_int">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">get_n_byte_int</code><span class="sig-paren">(</span><em class="sig-param">ptr</em>, <em class="sig-param">n</em>, <em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#get_n_byte_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.get_n_byte_int" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.get_n_bytes">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">get_n_bytes</code><span class="sig-paren">(</span><em class="sig-param">ptr</em>, <em class="sig-param">n</em>, <em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#get_n_bytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.get_n_bytes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="bbclib.libs.bbclib_utils.get_new_id">
 <code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">get_new_id</code><span class="sig-paren">(</span><em class="sig-param">seed_str=None</em>, <em class="sig-param">include_timestamp=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#get_new_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.get_new_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return 256-bit binary data</p>
@@ -387,23 +367,6 @@ limitations under the License.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>bytes</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.get_random_value">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">get_random_value</code><span class="sig-paren">(</span><em class="sig-param">length=32</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#get_random_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.get_random_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return random bytes</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>length</strong> (<em>int</em>) – length of the result</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>random bytes</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bytes</p>
 </dd>
 </dl>
 </dd></dl>
@@ -473,7 +436,7 @@ limitations under the License.</p>
 
 <dl class="function">
 <dt id="bbclib.libs.bbclib_utils.make_transaction">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">make_transaction</code><span class="sig-paren">(</span><em class="sig-param">event_num=0</em>, <em class="sig-param">relation_num=0</em>, <em class="sig-param">witness=False</em>, <em class="sig-param">version=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#make_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.make_transaction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">make_transaction</code><span class="sig-paren">(</span><em class="sig-param">event_num=0</em>, <em class="sig-param">relation_num=0</em>, <em class="sig-param">witness=False</em>, <em class="sig-param">version=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#make_transaction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.make_transaction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility to make transaction object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -513,31 +476,6 @@ limitations under the License.</p>
 <dl class="function">
 <dt id="bbclib.libs.bbclib_utils.str_binary">
 <code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">str_binary</code><span class="sig-paren">(</span><em class="sig-param">dat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#str_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.str_binary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.to_1byte">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">to_1byte</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#to_1byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.to_1byte" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.to_2byte">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">to_2byte</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#to_2byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.to_2byte" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.to_4byte">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">to_4byte</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#to_4byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.to_4byte" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.to_8byte">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">to_8byte</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#to_8byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.to_8byte" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="bbclib.libs.bbclib_utils.to_bigint">
-<code class="sig-prename descclassname">bbclib.libs.bbclib_utils.</code><code class="sig-name descname">to_bigint</code><span class="sig-paren">(</span><em class="sig-param">val</em>, <em class="sig-param">size=32</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_utils.html#to_bigint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_utils.to_bigint" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
