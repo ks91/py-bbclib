@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_crossref &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_crossref &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -172,13 +172,14 @@
 <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;../..&quot;</span><span class="p">))</span>
 
-<span class="kn">from</span> <span class="nn">bbclib.libs</span> <span class="k">import</span> <span class="n">bbclib_utils</span>
+<span class="kn">from</span> <span class="nn">bbclib.libs</span> <span class="k">import</span> <span class="n">bbclib_binary</span>
 <span class="kn">from</span> <span class="nn">bbclib</span> <span class="k">import</span> <span class="n">id_length_conf</span>
 
 
 <div class="viewcode-block" id="BBcCrossRef"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_crossref.html#bbclib.libs.bbclib_crossref.BBcCrossRef">[docs]</a><span class="k">class</span> <span class="nc">BBcCrossRef</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;CrossRef part in a transaction&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transaction_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span> <span class="o">=</span> <span class="n">id_length_conf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span> <span class="o">=</span> <span class="n">domain_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span> <span class="o">=</span> <span class="n">transaction_id</span>
         <span class="k">if</span> <span class="n">unpack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -186,8 +187,8 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ret</span>  <span class="o">=</span> <span class="s2">&quot;Cross_Ref:</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  domain_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span><span class="p">)</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  transaction_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  domain_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;  transaction_id: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">str_binary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
 
 <div class="viewcode-block" id="BBcCrossRef.pack"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_crossref.html#bbclib.libs.bbclib_crossref.BBcCrossRef.pack">[docs]</a>    <span class="k">def</span> <span class="nf">pack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -196,8 +197,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            bytes: packed binary data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span><span class="p">))</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_utils</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span><span class="p">,</span> <span class="n">id_length_conf</span><span class="p">[</span><span class="s2">&quot;transaction_id&quot;</span><span class="p">]))</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span><span class="p">))</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_bigint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;transaction_id&quot;</span><span class="p">]))</span>
         <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BBcCrossRef.unpack"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_crossref.html#bbclib.libs.bbclib_crossref.BBcCrossRef.unpack">[docs]</a>    <span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -210,8 +211,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ptr</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span> <span class="o">=</span> <span class="n">bbclib_utils</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_id</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">ptr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span> <span class="o">=</span> <span class="n">bbclib_binary</span><span class="o">.</span><span class="n">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idlen_conf</span><span class="p">[</span><span class="s2">&quot;transaction_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transaction_id</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>

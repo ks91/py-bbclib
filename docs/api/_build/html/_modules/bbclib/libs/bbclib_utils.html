@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_utils &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_utils &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -191,6 +191,7 @@
 <span class="kn">from</span> <span class="nn">bbclib.libs.bbclib_pointer</span> <span class="k">import</span> <span class="n">BBcPointer</span>
 <span class="kn">from</span> <span class="nn">bbclib.libs.bbclib_witness</span> <span class="k">import</span> <span class="n">BBcWitness</span>
 <span class="kn">from</span> <span class="nn">bbclib.libs.bbclib_crossref</span> <span class="k">import</span> <span class="n">BBcCrossRef</span>
+<span class="kn">from</span> <span class="nn">bbclib.libs</span> <span class="k">import</span> <span class="n">bbclib_binary</span>
 
 
 <div class="viewcode-block" id="str_binary"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.str_binary">[docs]</a><span class="k">def</span> <span class="nf">str_binary</span><span class="p">(</span><span class="n">dat</span><span class="p">):</span>
@@ -225,20 +226,6 @@
     <span class="n">source_str</span> <span class="o">=</span> <span class="s1">&#39;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">source_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">)])</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">encode</span><span class="p">()))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="get_random_value"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.get_random_value">[docs]</a><span class="k">def</span> <span class="nf">get_random_value</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">DEFAULT_ID_LEN</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return random bytes</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        length (int): length of the result</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        bytes: random bytes</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">val</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
-        <span class="n">val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">))</span>
-    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="convert_id_to_string"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.convert_id_to_string">[docs]</a><span class="k">def</span> <span class="nf">convert_id_to_string</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bytelen</span><span class="o">=</span><span class="n">DEFAULT_ID_LEN</span><span class="p">):</span>
@@ -291,7 +278,7 @@
     <span class="k">return</span> <span class="n">d</span></div>
 
 
-<div class="viewcode-block" id="make_transaction"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.make_transaction">[docs]</a><span class="k">def</span> <span class="nf">make_transaction</span><span class="p">(</span><span class="n">event_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">relation_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">witness</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="make_transaction"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.make_transaction">[docs]</a><span class="k">def</span> <span class="nf">make_transaction</span><span class="p">(</span><span class="n">event_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">relation_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">witness</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Utility to make transaction object</span>
 
 <span class="sd">    Args:</span>
@@ -474,51 +461,6 @@
     <span class="k">return</span> <span class="n">sig</span></div>
 
 
-<div class="viewcode-block" id="to_bigint"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.to_bigint">[docs]</a><span class="k">def</span> <span class="nf">to_bigint</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">to_2byte</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
-    <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dat</span></div>
-
-
-<div class="viewcode-block" id="to_8byte"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.to_8byte">[docs]</a><span class="k">def</span> <span class="nf">to_8byte</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="to_4byte"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.to_4byte">[docs]</a><span class="k">def</span> <span class="nf">to_4byte</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="to_2byte"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.to_2byte">[docs]</a><span class="k">def</span> <span class="nf">to_2byte</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="to_1byte"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.to_1byte">[docs]</a><span class="k">def</span> <span class="nf">to_1byte</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_n_bytes"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.get_n_bytes">[docs]</a><span class="k">def</span> <span class="nf">get_n_bytes</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">ptr</span><span class="o">+</span><span class="n">n</span><span class="p">,</span> <span class="n">dat</span><span class="p">[</span><span class="n">ptr</span><span class="p">:</span><span class="n">ptr</span><span class="o">+</span><span class="n">n</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="get_n_byte_int"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.get_n_byte_int">[docs]</a><span class="k">def</span> <span class="nf">get_n_byte_int</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">ptr</span><span class="o">+</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ptr</span><span class="p">:</span><span class="n">ptr</span><span class="o">+</span><span class="n">n</span><span class="p">],</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_bigint"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.get_bigint">[docs]</a><span class="k">def</span> <span class="nf">get_bigint</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ptr</span><span class="p">:</span><span class="n">ptr</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ptr</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">size</span><span class="p">,</span> <span class="n">dat</span><span class="p">[</span><span class="n">ptr</span><span class="o">+</span><span class="mi">2</span><span class="p">:</span><span class="n">ptr</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">size</span><span class="p">]</span></div>
-
-
-<span class="k">def</span> <span class="nf">bin2str_base64</span><span class="p">(</span><span class="n">dat</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">binascii</span>
-    <span class="k">return</span> <span class="n">binascii</span><span class="o">.</span><span class="n">b2a_base64</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="bin2str_base64"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.bin2str_base64">[docs]</a><span class="k">def</span> <span class="nf">bin2str_base64</span><span class="p">(</span><span class="n">dat</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">binascii</span>
-    <span class="k">return</span> <span class="n">binascii</span><span class="o">.</span><span class="n">b2a_base64</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="validate_transaction_object"><a class="viewcode-back" href="../../../bbclib.libs.bbclib_utils.html#bbclib.libs.bbclib_utils.validate_transaction_object">[docs]</a><span class="k">def</span> <span class="nf">validate_transaction_object</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">asset_files</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Validate transaction and its asset</span>
 
@@ -589,8 +531,8 @@
     <span class="k">if</span> <span class="n">cross</span><span class="o">.</span><span class="n">domain_id</span> <span class="o">!=</span> <span class="n">domain_id</span> <span class="ow">or</span> <span class="n">cross</span><span class="o">.</span><span class="n">transaction_id</span> <span class="o">!=</span> <span class="n">transaction_id</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="n">dat</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">transaction_base_digest</span><span class="p">)</span>
-    <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_2byte</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_ref_data</span><span class="p">)))</span>
+    <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_2byte</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bbclib_binary</span><span class="o">.</span><span class="n">to_4byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cross_ref_data</span><span class="p">)))</span>
     <span class="n">dat</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">cross</span><span class="o">.</span><span class="n">pack</span><span class="p">())</span>
     <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">dat</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">BBcSignature</span><span class="p">(</span><span class="n">unpack</span><span class="o">=</span><span class="n">sigdata</span><span class="p">)</span>

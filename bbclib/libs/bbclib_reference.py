@@ -21,7 +21,7 @@ import traceback
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 from bbclib import id_length_conf
-from bbclib.libs import bbclib_utils
+from bbclib.libs import bbclib_binary
 
 
 class BBcReference:
@@ -52,8 +52,8 @@ class BBcReference:
         self.prepare_reference(ref_transaction=ref_transaction)
 
     def __str__(self):
-        ret =  "  asset_group_id: %s\n" % bbclib_utils.str_binary(self.asset_group_id)
-        ret += "  transaction_id: %s\n" % bbclib_utils.str_binary(self.transaction_id)
+        ret =  "  asset_group_id: %s\n" % bbclib_binary.str_binary(self.asset_group_id)
+        ret += "  transaction_id: %s\n" % bbclib_binary.str_binary(self.transaction_id)
         ret += "  event_index_in_ref: %d\n" % self.event_index_in_ref
         ret += "  sig_indices: %s\n" % self.sig_indices
         return ret
@@ -67,7 +67,7 @@ class BBcReference:
                 for user in evt.mandatory_approvers:
                     self.sig_indices.append(self.transaction.get_sig_index(user))
                 for i in range(evt.option_approver_num_numerator):
-                    dummy_id = bbclib_utils.get_random_value(4)
+                    dummy_id = bbclib_binary.get_random_value(4)
                     self.option_sig_ids.append(dummy_id)
                     self.sig_indices.append(self.transaction.get_sig_index(dummy_id))
             else:
@@ -76,7 +76,7 @@ class BBcReference:
                     self.transaction.set_sig_index(user, self.sig_indices[i])
                     i += 1
                 for i in range(evt.option_approver_num_numerator):
-                    dummy_id = bbclib_utils.get_random_value(4)
+                    dummy_id = bbclib_binary.get_random_value(4)
                     self.option_sig_ids.append(dummy_id)
                     self.transaction.set_sig_index(dummy_id, self.sig_indices[i])
                     i += 1
@@ -96,11 +96,12 @@ class BBcReference:
         """
         if user_id in self.option_approvers:
             if len(self.option_sig_ids) == 0:
-                return
+                return False
             user_id = self.option_sig_ids.pop(0)
         elif user_id not in self.mandatory_approvers:
-            return
-        self.transaction.add_signature(user_id=user_id, signature=signature)
+            return False
+        self.transaction.add_signature_object(user_id=user_id, signature=signature)
+        return True
 
     def get_destinations(self):
         """Return the list of approvers in the referred transaction"""
@@ -112,12 +113,12 @@ class BBcReference:
         Returns:
             bytes: packed binary data
         """
-        dat = bytearray(bbclib_utils.to_bigint(self.asset_group_id, size=self.idlen_conf["asset_group_id"]))
-        dat.extend(bbclib_utils.to_bigint(self.transaction_id, size=self.idlen_conf["transaction_id"]))
-        dat.extend(bbclib_utils.to_2byte(self.event_index_in_ref))
-        dat.extend(bbclib_utils.to_2byte(len(self.sig_indices)))
+        dat = bytearray(bbclib_binary.to_bigint(self.asset_group_id, size=self.idlen_conf["asset_group_id"]))
+        dat.extend(bbclib_binary.to_bigint(self.transaction_id, size=self.idlen_conf["transaction_id"]))
+        dat.extend(bbclib_binary.to_2byte(self.event_index_in_ref))
+        dat.extend(bbclib_binary.to_2byte(len(self.sig_indices)))
         for i in range(len(self.sig_indices)):
-            dat.extend(bbclib_utils.to_2byte(self.sig_indices[i]))
+            dat.extend(bbclib_binary.to_2byte(self.sig_indices[i]))
         return bytes(dat)
 
     def unpack(self, data):
@@ -131,15 +132,15 @@ class BBcReference:
         ptr = 0
         data_size = len(data)
         try:
-            ptr, self.asset_group_id = bbclib_utils.get_bigint(ptr, data)
+            ptr, self.asset_group_id = bbclib_binary.get_bigint(ptr, data)
             self.idlen_conf["asset_group_id"] = len(self.asset_group_id)
-            ptr, self.transaction_id = bbclib_utils.get_bigint(ptr, data)
+            ptr, self.transaction_id = bbclib_binary.get_bigint(ptr, data)
             self.idlen_conf["transaction_id"] = len(self.transaction_id)
-            ptr, self.event_index_in_ref = bbclib_utils.get_n_byte_int(ptr, 2, data)
-            ptr, signum = bbclib_utils.get_n_byte_int(ptr, 2, data)
+            ptr, self.event_index_in_ref = bbclib_binary.get_n_byte_int(ptr, 2, data)
+            ptr, signum = bbclib_binary.get_n_byte_int(ptr, 2, data)
             self.sig_indices = []
             for i in range(signum):
-                ptr, idx = bbclib_utils.get_n_byte_int(ptr, 2, data)
+                ptr, idx = bbclib_binary.get_n_byte_int(ptr, 2, data)
                 self.sig_indices.append(idx)
                 if ptr > data_size:
                     return False

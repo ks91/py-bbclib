@@ -23,7 +23,7 @@ import traceback
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
 
-from bbclib.libs import bbclib_utils
+from bbclib.libs import bbclib_binary
 from bbclib import id_length_conf
 
 
@@ -32,7 +32,8 @@ class BBcAssetRaw:
 
     In this object, asset_id should be given externally, meaning that this object does not care about how to calculate the digest.
     """
-    def __init__(self, asset_id=None, asset_body=None, id_length=None):
+    def __init__(self, asset_id=None, asset_body=None, id_length=None, version=2):
+        self.version = version
         self.idlen_conf = id_length_conf.copy()
         if id_length is not None:
             if isinstance(id_length, int):
@@ -48,7 +49,7 @@ class BBcAssetRaw:
 
     def __str__(self):
         ret =  "  AssetRaw:\n"
-        ret += "     asset_id: %s\n" % bbclib_utils.str_binary(self.asset_id)
+        ret += "     asset_id: %s\n" % bbclib_binary.str_binary(self.asset_id)
         ret += "     body_size: %d\n" % self.asset_body_size
         ret += "     body: %s\n" % self.asset_body
         return ret
@@ -81,8 +82,8 @@ class BBcAssetRaw:
             bytes: packed binary data
         """
         dat = bytearray()
-        dat.extend(bbclib_utils.to_bigint(self.asset_id, size=self.idlen_conf["asset_id"]))
-        dat.extend(bbclib_utils.to_2byte(self.asset_body_size))
+        dat.extend(bbclib_binary.to_bigint(self.asset_id, size=self.idlen_conf["asset_id"]))
+        dat.extend(bbclib_binary.to_2byte(self.asset_body_size))
         if self.asset_body_size > 0:
             dat.extend(self.asset_body)
         return bytes(dat)
@@ -97,11 +98,11 @@ class BBcAssetRaw:
         """
         ptr = 0
         try:
-            ptr, self.asset_id = bbclib_utils.get_bigint(ptr, data)
+            ptr, self.asset_id = bbclib_binary.get_bigint(ptr, data)
             self.idlen_conf["asset_id"] = len(self.asset_id)
-            ptr, self.asset_body_size = bbclib_utils.get_n_byte_int(ptr, 2, data)
+            ptr, self.asset_body_size = bbclib_binary.get_n_byte_int(ptr, 2, data)
             if self.asset_body_size > 0:
-                ptr, self.asset_body = bbclib_utils.get_n_bytes(ptr, self.asset_body_size, data)
+                ptr, self.asset_body = bbclib_binary.get_n_bytes(ptr, self.asset_body_size, data)
         except:
             traceback.print_exc()
             return False

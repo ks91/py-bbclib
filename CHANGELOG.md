@@ -1,6 +1,9 @@
 Change log
 ======
 
+## v1.6
+* support method-chain style coding to create transaction object
+
 ## v1.5.6
 * modify dynamic link library load procedure for AWS lambda
 

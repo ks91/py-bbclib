@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bbclib.libs.bbclib_relation module &mdash; py-bbclib 1.5 documentation</title>
+  <title>bbclib.libs.bbclib_relation module &mdash; py-bbclib 1.6 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.5
+                1.6
               </div>
             
           
@@ -193,6 +193,84 @@ limitations under the License.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="bbclib.libs.bbclib_relation.BBcRelation.create_asset">
+<code class="sig-name descname">create_asset</code><span class="sig-paren">(</span><em class="sig-param">user_id</em>, <em class="sig-param">asset_body=None</em>, <em class="sig-param">asset_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_relation.html#BBcRelation.create_asset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_relation.BBcRelation.create_asset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create BBcAsset object and set it to self.asset in the BBcRelation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<em>byte</em>) – user_id to set in BBcAsset object</p></li>
+<li><p><strong>asset_body</strong> – asset_body to set in BBcAsset object</p></li>
+<li><p><strong>asset_file</strong> (<em>byte</em>) – asset file to set in BBcAsset object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>this object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcRelation" title="bbclib.compat.bbclib.BBcRelation">BBcRelation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_relation.BBcRelation.create_asset_hash">
+<code class="sig-name descname">create_asset_hash</code><span class="sig-paren">(</span><em class="sig-param">asset_ids</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_relation.html#BBcRelation.create_asset_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_relation.BBcRelation.create_asset_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create BBcAssetHash object and set it to self.asset in the BBcRelation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>asset_ids</strong> (<em>list</em><em>(</em><em>byte</em><em>)</em>) – list of asset_ids to set in BBcAssetRaw object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>this object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcRelation" title="bbclib.compat.bbclib.BBcRelation">BBcRelation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_relation.BBcRelation.create_asset_raw">
+<code class="sig-name descname">create_asset_raw</code><span class="sig-paren">(</span><em class="sig-param">asset_id</em>, <em class="sig-param">asset_body=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_relation.html#BBcRelation.create_asset_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_relation.BBcRelation.create_asset_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create BBcAssetRaw object and set it to self.asset in the BBcRelation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>asset_id</strong> (<em>byte</em>) – asset_id to set in BBcAssetRaw object</p></li>
+<li><p><strong>asset_body</strong> – asset_body to set in BBcAssetRaw object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>this object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcRelation" title="bbclib.compat.bbclib.BBcRelation">BBcRelation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_relation.BBcRelation.create_pointer">
+<code class="sig-name descname">create_pointer</code><span class="sig-paren">(</span><em class="sig-param">transaction_id=None</em>, <em class="sig-param">asset_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_relation.html#BBcRelation.create_pointer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_relation.BBcRelation.create_pointer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create BBcPointer object and set it to self.asset in the BBcRelation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transaction_id</strong> (<em>byte</em>) – transaction_id</p></li>
+<li><p><strong>asset_id</strong> (<em>byte</em>) – asset_id</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>this object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcRelation" title="bbclib.compat.bbclib.BBcRelation">BBcRelation</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="bbclib.libs.bbclib_relation.BBcRelation.pack">
 <code class="sig-name descname">pack</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_relation.html#BBcRelation.pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_relation.BBcRelation.pack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pack this object</p>
@@ -202,6 +280,23 @@ limitations under the License.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bbclib.libs.bbclib_relation.BBcRelation.set_asset_group">
+<code class="sig-name descname">set_asset_group</code><span class="sig-paren">(</span><em class="sig-param">asset_group_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bbclib/libs/bbclib_relation.html#BBcRelation.set_asset_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bbclib.libs.bbclib_relation.BBcRelation.set_asset_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set asset_group_id in the BBcRelation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>asset_group_id</strong> (<em>byte</em>) – asset_group_id</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>this object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="bbclib.compat.bbclib.html#bbclib.compat.bbclib.BBcRelation" title="bbclib.compat.bbclib.BBcRelation">BBcRelation</a></p>
 </dd>
 </dl>
 </dd></dl>

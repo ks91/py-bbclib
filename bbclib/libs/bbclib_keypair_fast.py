@@ -18,6 +18,9 @@ import sys
 import os
 import platform
 import binascii
+import base64
+import json
+import hashlib
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(current_dir, "../.."))
@@ -60,7 +63,29 @@ class KeyPairFast:
             memmove(self.private_key, bytes(privkey), sizeof(self.private_key))
         if pubkey is not None:
             self.public_key_len = c_int32(len(pubkey))
+            if len(pubkey) == 33:
+                self.key_compression = KeyPairFast.POINT_CONVERSION_COMPRESSED
             memmove(self.public_key, bytes(pubkey), self.public_key_len.value)
+
+    def get_key_id(self):
+        """calculate Base64-encoded KeyID defined in RFC7638"""
+        if self.key_compression == KeyPairFast.POINT_CONVERSION_COMPRESSED:
+            pubkey_len = c_int32(33)
+            pub = (c_byte * self.public_key_len.value)()
+            libbbcsig.get_public_key_uncompressed(self.curvetype, self.private_key_len, self.private_key,
+                                                  byref(pubkey_len), pub)
+            public_key = bytes(pub)
+        else:
+            public_key = bytes(self.public_key)
+
+        jwk_data = {
+            "crv": "P-256",
+            "kty": "EC",
+            "x": base64.urlsafe_b64encode(public_key[1:33]).decode().replace("=", ""),
+            "y": base64.urlsafe_b64encode(public_key[33:65]).decode().replace("=", "")
+        }
+        jwk = json.dumps(jwk_data)
+        return hashlib.sha256(jwk.encode()).digest()
 
     def generate(self):
         """Generate a new key pair"""
